@@ -1,0 +1,43 @@
+app: admin-tools
+
+build:
+  packages:
+
+ingredients:
+  packages:
+    - yast2-ncurses
+    - perl-Config-Crontab
+    - gamin-server
+    - yast2-xml
+    - bind-libs
+    - samba-libs
+    - python3-six
+    - libcrypt1
+    - cyrus-sasl-gssapi
+    - yast2-aduc
+    - yast2-adsi
+    - yast2-gpmc
+    - yast2-dns-manager
+    - util-linux
+
+script:
+  # Reinstall perl
+  - rpm -r $BUILD_APPDIR -i /usr/src/packages/admin-tools-*/.build.binaries/perl.rpm /usr/src/packages/admin-tools-*/.build.binaries/perl-base.rpm --nodeps
+  # Put y2base in our path
+  - ln -s ../lib/YaST2/bin/y2base usr/bin/y2base
+  # Make binaries relocatable
+  - pushd usr && find . -type f -exec sed -i -e 's#/usr#././#g' {} \; && popd
+  # Cleanup python2
+  - find $BUILD_APPDIR/ -name python2* -exec rm -rf {} +
+  # Create the desktop file
+  - echo "[Desktop Entry]"  >  $BUILD_APPDIR/admin-tools.desktop
+  - echo "Name=admin-tools"   >> $BUILD_APPDIR/admin-tools.desktop
+  - echo "Exec=y2base admin-tools ncurses" >> $BUILD_APPDIR/admin-tools.desktop
+  - echo "Terminal=true" >> $BUILD_APPDIR/admin-tools.desktop
+  - echo "Icon=admin-tools"    >> $BUILD_APPDIR/admin-tools.desktop
+  - echo "Type=Application" >> $BUILD_APPDIR/admin-tools.desktop
+  - echo "Categories=Settings" >> $BUILD_APPDIR/admin-tools.desktop
+  - cp $BUILD_SOURCE_DIR/admin-tools.py $BUILD_APPDIR/usr/share/YaST2/clients/
+  - mkdir -p $BUILD_APPDIR/usr/share/metainfo
+  - cp $BUILD_SOURCE_DIR/admin-tools.appdata.xml $BUILD_APPDIR/usr/share/metainfo/
+  - cp $BUILD_SOURCE_DIR/_icon $BUILD_APPDIR/admin-tools.png

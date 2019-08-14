@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+	<id>admin-tools</id>
+	<metadata_license>GFDL-1.3</metadata_license>
+	<project_license>GPL-3.0</project_license>
+	<name>Administrative Tools</name>
+	<summary>Administrative Tools for managing a Samba AD-DC</summary>
+	<description>
+		<p>Administrative Tools provides a subset of common tools used for managing an Active Directory domain, including Active Directory Users and Computers, ADSI Edit, DNS Manager, and Group Policy Management Console.</p>
+	</description>
+	<launchable type="desktop-id">admin-tools.desktop</launchable>
+	<url type="homepage">https://build.opensuse.org/package/show/home:dmulder:YaST:AppImage/admin-tools</url>
+	<screenshots>
+		<screenshot type="default">
+			<image>https://wiki.samba.org/images/9/9e/YaST_ADUC_UNIX_Attributes_Groups.png</image>
+		</screenshot>
+		<screenshot>
+			<image>https://wiki.samba.org/images/7/70/YaST_ADUC_UNIX_Attributes_User.png</image>
+		</screenshot>
+		<screenshot>
+			<image>https://wiki.samba.org/images/b/bb/Admin_tools_DNS_Manager_Add_records.png</image>
+		</screenshot>
+		<screenshot>
+			<image>https://wiki.samba.org/images/d/d2/Admin_tools_DNS_Add_Zone_Wizard_1.png</image>
+		</screenshot>
+		<screenshot>
+			<image>https://wiki.samba.org/images/e/ea/Admin_tools_DNS_Add_Zone_Wizard_2.png</image>
+		</screenshot>
+	</screenshots>
+	<provides>
+		<id>admin-tools.desktop</id>
+	</provides>
+</component>
