@@ -1,0 +1,4 @@
+admin-tools-x86_64.AppImage
+build/
+squashfs-root/
+__pycache__

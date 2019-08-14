@@ -9,6 +9,7 @@ items = [Item(Id('aduc'), 'Active Directory Users and Computers'),
          Item(Id('adsi'), 'ADSI Edit'),
          Item(Id('dns-manager'), 'DNS'),
          Item(Id('gpmc'), 'Group Policy Management Console'),
+         Item(Id('samba-provision'), 'Provision an Active Directory Domain Controller'),
 ]
 UI.OpenDialog(Opt('mainDialog'), Table(Id('tools'), Opt('notify'), header, items))
 UI.SetApplicationTitle('Administrative Tools')

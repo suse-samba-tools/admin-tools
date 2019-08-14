@@ -6,6 +6,7 @@ build:
 ingredients:
   packages:
     - yast2-ncurses
+    - libyui-ncurses-pkg7
     - perl-Config-Crontab
     - gamin-server
     - yast2-xml
@@ -18,6 +19,9 @@ ingredients:
     - yast2-adsi
     - yast2-gpmc
     - yast2-dns-manager
+    - yast2-samba-client
+    - yast2-ldap
+    - yast2-samba-provision
     - util-linux
 
 script:
@@ -38,6 +42,9 @@ script:
   - echo "Type=Application" >> $BUILD_APPDIR/admin-tools.desktop
   - echo "Categories=Settings" >> $BUILD_APPDIR/admin-tools.desktop
   - cp $BUILD_SOURCE_DIR/admin-tools.py $BUILD_APPDIR/usr/share/YaST2/clients/
+  - cp $BUILD_SOURCE_DIR/Package.py $BUILD_APPDIR/usr/share/YaST2/modules/
+  - cp $BUILD_SOURCE_DIR/PackageSystem.py $BUILD_APPDIR/usr/share/YaST2/modules/
+  - cp $BUILD_SOURCE_DIR/SuSEFirewall.py $BUILD_APPDIR/usr/share/YaST2/modules/
   - mkdir -p $BUILD_APPDIR/usr/share/metainfo
   - cp $BUILD_SOURCE_DIR/admin-tools.appdata.xml $BUILD_APPDIR/usr/share/metainfo/
   - cp $BUILD_SOURCE_DIR/_icon $BUILD_APPDIR/admin-tools.png
