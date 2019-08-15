@@ -45,6 +45,7 @@ script:
   - cp $BUILD_SOURCE_DIR/Package.py $BUILD_APPDIR/usr/share/YaST2/modules/
   - cp $BUILD_SOURCE_DIR/PackageSystem.py $BUILD_APPDIR/usr/share/YaST2/modules/
   - cp $BUILD_SOURCE_DIR/SuSEFirewall.py $BUILD_APPDIR/usr/share/YaST2/modules/
+  - cp $BUILD_SOURCE_DIR/Platform.py $BUILD_APPDIR/usr/share/YaST2/modules/
   - mkdir -p $BUILD_APPDIR/usr/share/metainfo
   - cp $BUILD_SOURCE_DIR/admin-tools.appdata.xml $BUILD_APPDIR/usr/share/metainfo/
   - cp $BUILD_SOURCE_DIR/_icon $BUILD_APPDIR/admin-tools.png
