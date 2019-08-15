@@ -52,6 +52,11 @@ def ConvertPackageName(package):
             return 'samba-dc'
         elif package in ['samba-client', 'samba-winbind', 'samba', 'krb5-server']:
             return package
+    elif distro == 'debian':
+        if package == 'krb5-server':
+            return 'krb5-kdc'
+        elif package == 'samba-ad-dc':
+            return 'samba'
     ycpbuiltins.y2milestone('Package %s for distribution %s unknown. Please report this to the maintainer of admin-tools' % (package, distro))
     return package
 
