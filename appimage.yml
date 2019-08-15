@@ -21,6 +21,8 @@ ingredients:
     - yast2-dns-manager
     - yast2-samba-client
     - yast2-ldap
+    - samba-python3
+    - samba-ad-dc
     - yast2-samba-provision
     - util-linux
 
