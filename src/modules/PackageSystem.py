@@ -5,7 +5,7 @@ from yast import Package
 @Declare('boolean', 'string')
 def Installed(package):
     ycpbuiltins.y2milestone('Package %s was requested to be installed' % package)
-    return True
+    return False
 
 @Declare('boolean', 'list')
 def CheckAndInstallPackagesInteractive(packages):
