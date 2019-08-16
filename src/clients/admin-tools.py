@@ -39,6 +39,7 @@ def update():
     UI.SetApplicationTitle('Administrative Tools')
 
 def choose_module():
+    module = None
     header = Header('Name')
     items = [Item(Id('aduc'), 'Active Directory Users and Computers'),
              Item(Id('adsi'), 'ADSI Edit'),
@@ -48,7 +49,10 @@ def choose_module():
     dialog = VBox(
         Table(Id('tools'), Opt('notify'), header, items),
         VSpacing(.3),
-        Right(PushButton(Id('update'), 'Update')),
+        Right(HBox(
+            PushButton(Id('update'), 'Update'),
+            PushButton(Id('close'), 'Close'),
+        ))
     )
     UI.OpenDialog(Opt('mainDialog'), dialog)
     UI.SetApplicationTitle('Administrative Tools')
@@ -58,6 +62,8 @@ def choose_module():
         ycpbuiltins.y2error(str(ret))
         if ret['ID'] == 'update':
             update()
+        elif ret['ID'] == 'close':
+            break
         else:
             module = UI.QueryWidget('tools', 'Value')
             break
@@ -70,4 +76,5 @@ def run(module):
 
 if __name__ == "__main__":
     module = choose_module()
-    run(module)
+    if module:
+        run(module)
