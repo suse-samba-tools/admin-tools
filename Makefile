@@ -1,3 +1,5 @@
+all: build
+
 setup:
 	if [ ! -e build ] ; then osc co home:dmulder:YaST:AppImage admin-tools -o build; fi
 	cp admin-tools.appdata.xml build/
