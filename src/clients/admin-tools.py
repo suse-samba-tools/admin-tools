@@ -40,7 +40,7 @@ def update():
 
 def choose_module():
     module = None
-    header = Header('Name')
+    header = Header('')
     items = [Item(Id('aduc'), 'Active Directory Users and Computers'),
              Item(Id('adsi'), 'ADSI Edit'),
              Item(Id('dns-manager'), 'DNS'),
