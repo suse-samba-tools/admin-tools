@@ -41,3 +41,5 @@ script:
   - mkdir -p $BUILD_APPDIR/usr/share/metainfo
   - cp $BUILD_SOURCE_DIR/admin-tools.appdata.xml $BUILD_APPDIR/usr/share/metainfo/
   - cp $BUILD_SOURCE_DIR/_icon $BUILD_APPDIR/admin-tools.png
+  - cp $BUILD_SOURCE_DIR/*appimageupdatetool-x86_64.AppImage $BUILD_APPDIR/usr/bin/appimageupdatetool
+  - chmod a+x $BUILD_APPDIR/usr/bin/appimageupdatetool

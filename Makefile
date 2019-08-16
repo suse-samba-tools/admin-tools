@@ -3,6 +3,7 @@ setup:
 	cp admin-tools.appdata.xml build/
 	cp src/clients/admin-tools.py build/
 	cp appimage.yml build/
+	cp obs_service build/_service
 
 build: setup
 	pushd build; osc build AppImage x86_64 appimage.yml --noverify; popd

@@ -1,0 +1,8 @@
+<services>
+  <service name="appimage"/>
+  <service name="download_url">
+    <param name="protocol">https</param>
+    <param name="host">github.com</param>
+    <param name="path">AppImage/AppImageUpdate/releases/download/continuous/appimageupdatetool-x86_64.AppImage</param>
+  </service>
+</services>
