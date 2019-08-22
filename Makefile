@@ -2,6 +2,7 @@ all: build
 
 setup:
 	if [ ! -e build ] ; then osc co home:dmulder:YaST:AppImage admin-tools -o build; fi
+	pushd build && osc up; popd
 	cp admin-tools.appdata.xml build/
 	cp src/clients/admin-tools.py build/
 	cp appimage.yml build/
