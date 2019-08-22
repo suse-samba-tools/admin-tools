@@ -19,6 +19,8 @@ ingredients:
     - yast2-gpmc
     - yast2-dns-manager
     - util-linux
+    - samba-python3
+    - samba-ad-dc
 
 script:
   # Reinstall perl
