@@ -3,49 +3,14 @@ import hecate
 import random
 import string
 from time import sleep
-from adcommon.creds import kinit_for_gssapi
-from samba.credentials import Credentials, MUST_USE_KERBEROS
-from getpass import getpass
-from subprocess import Popen, PIPE
-import re, six
+from common import AdminToolsTestCase
 
 def randomName(length=10):
     return ''.join(random.choice(string.ascii_lowercase) for i in range(length)).title()
 
-class TestADUC(unittest.TestCase):
-    def assertSeen(self, what, msg=None, timeout=10):
-        try:
-            self.at.await_text(what, timeout=timeout)
-        except hecate.hecate.Timeout:
-            pass
-        self.assertIn(what, self.at.screenshot(), msg)
-
-    def __validate_kinit(self):
-        return Popen(['klist', '-s'], stdout=PIPE, stderr=PIPE).wait() == 0
-
-    def __validate_kinit(self):
-        out, _ = Popen(['klist'], stdout=PIPE, stderr=PIPE).communicate()
-        m = re.findall(six.b('Default principal:\s*(\w+)@([\w\.]+)'), out)
-        if len(m) == 0:
-            return False
-        user, realm = m[0]
-        if Popen(['klist', '-s'], stdout=PIPE, stderr=PIPE).wait() != 0:
-            return False
-        self.creds.set_username(user.decode())
-        self.creds.set_domain(realm.decode())
-        self.creds.set_kerberos_state(MUST_USE_KERBEROS)
-        return True
-
-    def kinit(self):
-        while not self.__validate_kinit():
-            print('Domain administrator credentials are required to run the test.')
-            self.creds.set_username(input('Domain user principal name: '))
-            self.creds.set_password(getpass('Password for %s' % self.creds.get_username()))
-            kinit_for_gssapi(self.creds, None)
-
+class TestADUC(AdminToolsTestCase):
     def setUp(self):
-        self.creds = Credentials()
-        self.kinit()
+        super(TestADUC, self).setUp()
         self.at = hecate.Runner("admin-tools", width=120, height=50)
         self.assertSeen('Administrative Tools', timeout=10)
         self.at.press('Enter')
