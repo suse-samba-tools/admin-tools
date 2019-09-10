@@ -3,6 +3,10 @@ import hecate
 import random
 import string
 from time import sleep
+from adcommon.creds import kinit_for_gssapi
+from samba.credentials import Credentials
+from getpass import getpass
+from subprocess import Popen, PIPE
 
 def randomName(length=10):
     return ''.join(random.choice(string.ascii_lowercase) for i in range(length)).title()
@@ -92,8 +96,16 @@ class TestADUC(unittest.TestCase):
     def tearDown(self):
         self.at.shutdown()
 
+def validate_kinit():
+    return Popen(['klist', '-s'], stdout=PIPE, stderr=PIPE).wait() == 0
+
 def kinit():
-    pass
+    if not validate_kinit():
+        creds = Credentials()
+        print('Domain administrator credentials are required to run the test.')
+        creds.set_username(input('Domain user principal name: '))
+        creds.set_password(getpass('Domain user password: '))
+        kinit_for_gssapi(creds, None)
 
 if __name__ == "__main__":
     kinit()
