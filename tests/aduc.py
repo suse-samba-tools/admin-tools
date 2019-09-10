@@ -24,6 +24,49 @@ class TestADUC(AdminToolsTestCase):
         # Make sure we see the Administrator in the Users list
         self.assertSeen('Administrator', timeout=10)
 
+    def test_create_delete_group(self):
+        # Open the Action Menu
+        self.at.press('BTab')
+        self.at.press('Enter')
+        self.assertSeen('│New', timeout=10)
+        # Select New
+        self.at.press('Down')
+        self.at.press('Enter')
+        # Select Group
+        self.assertSeen('│Group', timeout=10)
+        for _ in range(0, 2):
+            self.at.press('Down')
+        self.at.press('Enter')
+        self.assertSeen('New Object - Group')
+
+        # Group name, etc
+        gname = '00000000%s' % randomName(5)
+        self.at.press(gname)
+        self.at.press('Tab')
+        self.at.press(gname)
+        self.at.press('BTab')
+        self.at.press('BTab')
+        self.at.press('BTab')
+        self.at.press('Enter')
+
+        self.assertSeen(gname, 'Group not found')
+
+        # Delete the group
+        self.at.press('Tab')
+        self.at.press('Tab')
+        self.at.press('Down')
+        self.at.press('Up') # ADUC automatically selects the object, but does not update the menu
+        self.at.press('Tab')
+        self.at.press('Tab')
+        self.at.press('Enter') # Action menu
+        self.assertSeen('│Delete')
+        self.at.press('Down')
+        self.at.press('Enter') # Delete
+        self.assertSeen("Are you sure you want to delete '%s'?" % gname)
+        self.at.press('Enter') # Yes
+        sleep(3)
+        self.assertNotIn(gname, self.at.screenshot(), 'Group found after deletion!')
+
     def test_create_delete_user(self):
         # Open the Action Menu
         self.at.press('BTab')
