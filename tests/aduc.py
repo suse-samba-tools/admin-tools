@@ -33,7 +33,7 @@ class TestADUC(unittest.TestCase):
         # Make sure we see the Administrator in the Users list
         self.assertSeen('Administrator', timeout=10)
 
-    def test_create_user(self):
+    def test_create_delete_user(self):
         # Open the Action Menu
         self.at.press('BTab')
         self.at.press('Enter')
@@ -49,7 +49,7 @@ class TestADUC(unittest.TestCase):
         self.assertSeen('New Object - User')
 
         # Username, etc
-        fname = randomName(5)
+        fname = '00000000%s' % randomName(5)
         ini = randomName(1)
         lname = randomName(8)
         self.at.press(fname)
@@ -92,6 +92,22 @@ class TestADUC(unittest.TestCase):
         sleep(1)
 
         self.assertSeen(' '.join([fname, ini, lname]), 'User not found')
+
+        # Delete the user
+        self.at.press('Tab')
+        self.at.press('Tab')
+        self.at.press('Down')
+        self.at.press('Up') # ADUC automatically selects the object, but does not update the menu
+        self.at.press('Tab')
+        self.at.press('Tab')
+        self.at.press('Enter') # Action menu
+        self.assertSeen('│Delete')
+        self.at.press('Down')
+        self.at.press('Enter') # Delete
+        self.assertSeen("Are you sure you want to delete '%s'?" % ' '.join([fname, ini, lname]))
+        self.at.press('Enter') # Yes
+        sleep(3)
+        self.assertNotIn(' '.join([fname, ini, lname]), self.at.screenshot(), 'User found after deletion!')
 
     def tearDown(self):
         self.at.shutdown()
