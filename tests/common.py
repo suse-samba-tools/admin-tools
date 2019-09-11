@@ -25,6 +25,10 @@ class AdminToolsTestCase(unittest.TestCase):
             sleep(.1)
         self.assertNotIn(what, self.at.screenshot(), msg)
 
+    def press(self, msg):
+        self.at.press(msg)
+        sleep(.1)
+
     def __validate_kinit(self):
         return Popen(['klist', '-s'], stdout=PIPE, stderr=PIPE).wait() == 0
 
