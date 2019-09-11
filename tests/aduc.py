@@ -187,6 +187,130 @@ class TestADUC(AdminToolsTestCase):
         self.at.press('Enter') # Yes
         self.assertNotSeen(name, 'OU found after deletion!')
 
+    def test_move_group(self):
+        ### Create a test OU ###
+        # Highlight the domain
+        for _ in range(0, 50):
+            self.at.press('Up')
+        self.at.press('Tab')
+        self.at.press('Tab')
+
+        # Open the Action Menu
+        self.at.press('BTab')
+        self.at.press('Enter')
+        self.assertSeen('│New')
+        # Select New
+        self.at.press('Down')
+        self.at.press('Enter')
+        # Select Organizational Unit
+        self.assertSeen('│Organizational Unit')
+        for _ in range(0, 5):
+            self.at.press('Down')
+        self.at.press('Enter')
+        self.assertSeen('New Object - Organizationalunit')
+
+        # Provide an OU name
+        name = '00000000%s' % randomName(10)
+        self.at.press(name)
+        self.at.press('Tab')
+        self.at.press('Enter')
+
+        self.assertSeen(name, 'OU not found')
+
+        ### Create a test Group ###
+        self.at.press('Tab')
+        for _ in range(0, 50): # Select Users
+            self.at.press('Down')
+
+        # Open the Action Menu
+        self.at.press('BTab')
+        self.at.press('Enter')
+        self.assertSeen('│New')
+        # Select New
+        self.at.press('Down')
+        self.at.press('Enter')
+        # Select Group
+        self.assertSeen('│Group')
+        for _ in range(0, 2):
+            self.at.press('Down')
+        self.at.press('Enter')
+        self.assertSeen('New Object - Group')
+
+        # Group name, etc
+        gname = '00000000%s' % randomName(5)
+        self.at.press(gname)
+        self.at.press('Tab')
+        self.at.press(gname)
+        self.at.press('BTab')
+        self.at.press('BTab')
+        self.at.press('BTab')
+        self.at.press('Enter')
+
+        self.assertSeen(gname, 'Group not found')
+
+        ### Move the test group to the test OU ###
+        self.at.press('Tab')
+        self.at.press('Tab')
+        self.at.press('Down')
+        self.at.press('Up') # ADUC automatically selects the object, but does not update the menu
+        self.at.press('Tab')
+        self.at.press('Tab')
+        self.at.press('Enter') # Action menu
+        self.assertSeen('│Move...')
+        self.at.press('Enter') # Move
+        self.assertSeen('Move object into container:')
+        self.at.press('Down') # Select the test OU
+        self.at.press('Tab')
+        self.at.press('Enter') # OK
+        self.assertSeen('Are you sure you want to move this object?')
+        self.at.press('Enter') # Yes
+        # Select the test OU
+        self.at.press('Tab')
+        for _ in range(0, 50):
+            self.at.press('Up')
+        self.at.press('Tab')
+        self.at.press('Tab')
+        self.at.press('Down')
+        self.at.press('Tab')
+
+        self.assertSeen(gname, 'Group not found after object move')
+
+        ### Delete the test group ###
+        # No easy way to hightlight the test group when there is only one object
+        self.at.press('Enter') # Open the properties window
+        self.assertSeen('%s Properties' % gname)
+        self.at.press('BTab')
+        self.at.press('BTab')
+        self.at.press('Enter') # Cancel (now the object is selected)
+        self.assertNotSeen('%s Properties' % gname)
+        self.at.press('Tab')
+        self.at.press('Tab')
+        self.at.press('Enter') # Action menu
+        self.assertSeen('│Delete')
+        self.at.press('Down')
+        self.at.press('Enter') # Delete
+        self.assertSeen("Are you sure you want to delete '%s'?" % gname)
+        self.at.press('Enter') # Yes
+        self.assertNotSeen(gname, 'Group found after deletion!')
+
+        ### Delete the test OU ###
+        self.at.press('Tab')
+        self.at.press('Up') # For some reason selecting the domain moves the cursor to the file menu
+        self.at.press('Tab')
+        self.at.press('Tab')
+        self.at.press('Tab')
+        self.at.press('Down')
+        self.at.press('Up')
+        self.at.press('Tab')
+        self.at.press('Tab')
+        self.at.press('Enter') # Action menu
+        self.assertSeen('│Delete')
+        self.at.press('Down')
+        self.at.press('Enter') # Delete
+        self.assertSeen("Are you sure you want to delete '%s'?" % name)
+        self.at.press('Enter') # Yes
+        self.assertNotSeen(name, 'OU found after deletion!')
+
     def tearDown(self):
         self.at.shutdown()
 
