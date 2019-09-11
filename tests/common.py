@@ -58,3 +58,7 @@ class AdminToolsTestCase(unittest.TestCase):
     def setUp(self):
         self.creds = Credentials()
         self.kinit()
+        self.at = hecate.Runner("admin-tools", width=120, height=50)
+
+    def tearDown(self):
+        self.at.shutdown()

@@ -9,9 +9,7 @@ def randomName(length=10):
     return ''.join(random.choice(string.ascii_lowercase) for i in range(length)).title()
 
 class TestADUC(AdminToolsTestCase):
-    def setUp(self):
-        super(TestADUC, self).setUp()
-        self.at = hecate.Runner("admin-tools", width=120, height=50)
+    def __open_aduc(self):
         self.assertSeen('Administrative Tools')
         self.press('Enter')
         self.assertSeen('To continue, type an Active Directory administrator password')
@@ -26,6 +24,7 @@ class TestADUC(AdminToolsTestCase):
         self.assertNotSeen('00000000', 'You need to cleanup a previous failed run!')
 
     def test_create_delete_group(self):
+        self.__open_aduc()
         # Open the Action Menu
         self.press('BTab')
         self.press('Enter')
@@ -68,6 +67,7 @@ class TestADUC(AdminToolsTestCase):
         self.assertNotSeen(gname, 'Group found after deletion!')
 
     def test_create_delete_user(self):
+        self.__open_aduc()
         # Open the Action Menu
         self.press('BTab')
         self.press('Enter')
@@ -144,6 +144,7 @@ class TestADUC(AdminToolsTestCase):
         self.assertNotSeen(' '.join([fname, ini, lname]), 'User found after deletion!')
 
     def test_create_delete_ou(self):
+        self.__open_aduc()
         # Highlight the domain
         for _ in range(0, 50):
             self.press('Up')
@@ -188,6 +189,7 @@ class TestADUC(AdminToolsTestCase):
         self.assertNotSeen(name, 'OU found after deletion!')
 
     def test_move_group(self):
+        self.__open_aduc()
         ### Create a test OU ###
         # Highlight the domain
         for _ in range(0, 50):
@@ -312,6 +314,7 @@ class TestADUC(AdminToolsTestCase):
         self.assertNotSeen(name, 'OU found after deletion!')
 
     def test_modify_user(self):
+        self.__open_aduc()
         # Open the Action Menu
         self.press('BTab')
         self.press('Enter')
@@ -436,9 +439,3 @@ class TestADUC(AdminToolsTestCase):
         self.assertSeen("Are you sure you want to delete '%s'?" % ' '.join([fname, ini, lname]))
         self.press('Enter') # Yes
         self.assertNotSeen(' '.join([fname, ini, lname]), 'User found after deletion!')
-
-    def tearDown(self):
-        self.at.shutdown()
-
-if __name__ == "__main__":
-    unittest.main()
