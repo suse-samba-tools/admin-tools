@@ -311,6 +311,132 @@ class TestADUC(AdminToolsTestCase):
         self.press('Enter') # Yes
         self.assertNotSeen(name, 'OU found after deletion!')
 
+    def test_modify_user(self):
+        # Open the Action Menu
+        self.press('BTab')
+        self.press('Enter')
+        self.assertSeen('│New')
+        # Select New
+        self.press('Down')
+        self.press('Enter')
+        # Select User
+        self.assertSeen('│User')
+        for _ in range(0, 6):
+            self.press('Down')
+        self.press('Enter')
+        self.assertSeen('New Object - User')
+
+        # Username, etc
+        fname = '00000000%s' % randomName(5)
+        ini = randomName(1)
+        lname = randomName(8)
+        self.press(fname)
+        self.press('Tab')
+        self.press(ini)
+        self.press('Tab')
+        self.press(lname)
+        self.press('Tab')
+        self.press(' '.join([fname, ini, lname]))
+        uname = ('%s%s' % (fname[0], lname)).lower()
+        self.press('Tab')
+        self.press(uname)
+        self.press('Tab')
+        self.press(uname)
+        self.press('Tab')
+        self.press('Enter') # Next
+
+        self.assertSeen('UID number:')
+
+        # Enter a GID
+        self.press('Tab')
+        self.press('1000')
+        for _ in range(0, 5):
+            self.press('Tab')
+        self.press('Enter') # Next
+
+        self.assertSeen('User must change password at next logon')
+
+        # Enter password, etc
+        self.press('locDCpass1')
+        self.press('Tab')
+        self.press('locDCpass1')
+        self.press('Tab')
+        self.press('Space') # Uncheck User must change password
+        self.press('Tab')
+        self.press('Space') # Check Password never expires
+        self.press('Tab')
+        # Do not disable the account
+        self.press('Tab')
+        self.press('Tab')
+        self.press('Enter') # Click finish
+
+        self.assertSeen(' '.join([fname, ini, lname]), 'User not found')
+
+        ### Disable the user ###
+        self.press('Tab')
+        self.press('Tab')
+        self.press('Enter')
+        self.assertSeen('%s Properties' % ' '.join([fname, ini, lname]), 'Properties dialog not found')
+        self.press('Right')
+        self.assertSeen('┌Street:─') # Address Tab
+        self.press('Right') # Account Tab
+        self.assertSeen('[ ] Account is disabled', 'Account should not be disabled!')
+        for _ in range(0, 5):
+            self.press('Tab')
+        self.press('Space') # Check 'Account is disabled'
+        self.press('Tab')
+        self.press('Enter') # OK
+
+        ### Verify account is disabled ###
+        for _ in range(0, 3):
+            self.press('Tab')
+        self.press('Enter')
+        self.assertSeen('%s Properties' % ' '.join([fname, ini, lname]), 'Properties dialog not found')
+        self.press('Right')
+        self.assertSeen('┌Street:─') # Address Tab
+        self.press('Right') # Account Tab
+        self.assertSeen('[x] Account is disabled', 'Account should be disabled!')
+
+        ### Modify user shell ###
+        self.press('Right') # Unix Attributes tab
+        self.assertSeen('/bin/sh', 'Should have seen the default shell for test user')
+        for _ in range(0, 5):
+            self.press('Tab')
+        self.press('BSpace')
+        self.press('BSpace')
+        self.press('bash')
+        self.assertSeen('/bin/bash')
+        self.press('Tab')
+        self.press('Enter') # OK
+
+        ### Verify user shell has changed ###
+        for _ in range(0, 3):
+            self.press('Tab')
+        self.press('Enter')
+        self.assertSeen('%s Properties' % ' '.join([fname, ini, lname]), 'Properties dialog not found')
+        for _ in range(0, 3):
+            self.press('Right')
+        self.assertSeen('/bin/bash', 'Should have seen the modified shell for test user')
+        self.press('BTab')
+        self.press('BTab')
+        self.press('Enter') # Cancel
+
+        # Delete the user
+        self.press('Tab')
+        self.press('Tab')
+        self.press('Tab')
+        self.press('Down')
+        self.press('Up') # ADUC automatically selects the object, but does not update the menu
+        self.press('Tab')
+        self.press('Tab')
+        self.press('Enter') # Action menu
+        self.assertSeen('│Delete')
+        self.press('Down')
+        self.press('Enter') # Delete
+        self.assertSeen("Are you sure you want to delete '%s'?" % ' '.join([fname, ini, lname]))
+        self.press('Enter') # Yes
+        self.assertNotSeen(' '.join([fname, ini, lname]), 'User found after deletion!')
+
     def tearDown(self):
         self.at.shutdown()
 
