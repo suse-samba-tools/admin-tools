@@ -100,7 +100,8 @@ class TestADUC(AdminToolsTestCase):
         self.at.press(uname)
         self.at.press('Tab')
         self.at.press('Enter') # Next
-        sleep(1)
+
+        self.assertSeen('UID number:')
 
         # Enter a GID
         self.at.press('Tab')
@@ -108,7 +109,8 @@ class TestADUC(AdminToolsTestCase):
         for _ in range(0, 5):
             self.at.press('Tab')
         self.at.press('Enter') # Next
-        sleep(1)
+
+        self.assertSeen('User must change password at next logon')
 
         # Enter password, etc
         self.at.press('locDCpass1')
@@ -123,7 +125,6 @@ class TestADUC(AdminToolsTestCase):
         self.at.press('Tab')
         self.at.press('Tab')
         self.at.press('Enter') # Click finish
-        sleep(1)
 
         self.assertSeen(' '.join([fname, ini, lname]), 'User not found')
 
