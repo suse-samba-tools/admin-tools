@@ -144,6 +144,51 @@ class TestADUC(AdminToolsTestCase):
         sleep(3)
         self.assertNotIn(' '.join([fname, ini, lname]), self.at.screenshot(), 'User found after deletion!')
 
+    def test_create_delete_ou(self):
+        # Highlight the domain
+        for _ in range(0, 50):
+            self.at.press('Up')
+        self.at.press('Tab')
+        self.at.press('Tab')
+
+        # Open the Action Menu
+        self.at.press('BTab')
+        self.at.press('Enter')
+        self.assertSeen('│New', timeout=10)
+        # Select New
+        self.at.press('Down')
+        self.at.press('Enter')
+        # Select Organizational Unit
+        self.assertSeen('│Organizational Unit', timeout=10)
+        for _ in range(0, 5):
+            self.at.press('Down')
+        self.at.press('Enter')
+        self.assertSeen('New Object - Organizationalunit')
+
+        # Provide an OU name
+        name = '00000000%s' % randomName(10)
+        self.at.press(name)
+        self.at.press('Tab')
+        self.at.press('Enter')
+
+        self.assertSeen(name, 'OU not found')
+
+        # Delete the OU
+        self.at.press('Tab')
+        self.at.press('Tab')
+        self.at.press('Down')
+        self.at.press('Up')
+        self.at.press('Tab')
+        self.at.press('Tab')
+        self.at.press('Enter') # Action menu
+        self.assertSeen('│Delete')
+        self.at.press('Down')
+        self.at.press('Enter') # Delete
+        self.assertSeen("Are you sure you want to delete '%s'?" % name)
+        self.at.press('Enter') # Yes
+        sleep(3)
+        self.assertNotIn(name, 'OU found after deletion!')
+
     def tearDown(self):
         self.at.shutdown()
 
