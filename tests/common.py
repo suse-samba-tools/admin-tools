@@ -23,18 +23,20 @@ class AdminToolsTestCase(unittest.TestCase):
         if len(m) == 0:
             return False
         user, realm = m[0]
+        self.creds.set_username(user.decode())
+        self.creds.set_domain(realm.decode())
         with Popen(['klist', '-s'], stdout=PIPE, stderr=PIPE) as p:
             if p.wait() != 0:
                 return False
-        self.creds.set_username(user.decode())
-        self.creds.set_domain(realm.decode())
         self.creds.set_kerberos_state(MUST_USE_KERBEROS)
         return True
 
     def kinit(self):
         while not self.__validate_kinit():
             print('Domain administrator credentials are required to run the test.')
-            self.creds.set_username(input('Domain user principal name: '))
+            username = input('Domain user principal name%s: ' % (' (%s)' % self.creds.get_username() if self.creds.get_username() else ''))
+            if username:
+                self.creds.set_username(username)
             self.creds.set_password(getpass('Password for %s: ' % self.creds.get_username()))
             kinit_for_gssapi(self.creds, None)
 
