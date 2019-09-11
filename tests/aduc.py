@@ -12,29 +12,29 @@ class TestADUC(AdminToolsTestCase):
     def setUp(self):
         super(TestADUC, self).setUp()
         self.at = hecate.Runner("admin-tools", width=120, height=50)
-        self.assertSeen('Administrative Tools', timeout=10)
+        self.assertSeen('Administrative Tools')
         self.at.press('Enter')
-        self.assertSeen('To continue, type an Active Directory administrator password', timeout=10)
+        self.assertSeen('To continue, type an Active Directory administrator password')
         self.at.press('Tab')
         self.at.press('Tab')
         self.at.press('Enter')
-        self.assertSeen('Active Directory Users and Computers', timeout=10)
+        self.assertSeen('Active Directory Users and Computers')
         for _ in range(0, 50): # Select Users
             self.at.press('Down')
         # Make sure we see the Administrator in the Users list
-        self.assertSeen('Administrator', timeout=10)
+        self.assertSeen('Administrator')
         self.assertNotSeen('00000000', 'You need to cleanup a previous failed run!')
 
     def test_create_delete_group(self):
         # Open the Action Menu
         self.at.press('BTab')
         self.at.press('Enter')
-        self.assertSeen('│New', timeout=10)
+        self.assertSeen('│New')
         # Select New
         self.at.press('Down')
         self.at.press('Enter')
         # Select Group
-        self.assertSeen('│Group', timeout=10)
+        self.assertSeen('│Group')
         for _ in range(0, 2):
             self.at.press('Down')
         self.at.press('Enter')
@@ -71,12 +71,12 @@ class TestADUC(AdminToolsTestCase):
         # Open the Action Menu
         self.at.press('BTab')
         self.at.press('Enter')
-        self.assertSeen('│New', timeout=10)
+        self.assertSeen('│New')
         # Select New
         self.at.press('Down')
         self.at.press('Enter')
         # Select User
-        self.assertSeen('│User', timeout=10)
+        self.assertSeen('│User')
         for _ in range(0, 6):
             self.at.press('Down')
         self.at.press('Enter')
@@ -153,12 +153,12 @@ class TestADUC(AdminToolsTestCase):
         # Open the Action Menu
         self.at.press('BTab')
         self.at.press('Enter')
-        self.assertSeen('│New', timeout=10)
+        self.assertSeen('│New')
         # Select New
         self.at.press('Down')
         self.at.press('Enter')
         # Select Organizational Unit
-        self.assertSeen('│Organizational Unit', timeout=10)
+        self.assertSeen('│Organizational Unit')
         for _ in range(0, 5):
             self.at.press('Down')
         self.at.press('Enter')
