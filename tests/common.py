@@ -23,8 +23,9 @@ class AdminToolsTestCase(unittest.TestCase):
         if len(m) == 0:
             return False
         user, realm = m[0]
-        if Popen(['klist', '-s'], stdout=PIPE, stderr=PIPE).wait() != 0:
-            return False
+        with Popen(['klist', '-s'], stdout=PIPE, stderr=PIPE) as p:
+            if p.wait() != 0:
+                return False
         self.creds.set_username(user.decode())
         self.creds.set_domain(realm.decode())
         self.creds.set_kerberos_state(MUST_USE_KERBEROS)
