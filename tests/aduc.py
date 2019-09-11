@@ -23,6 +23,7 @@ class TestADUC(AdminToolsTestCase):
             self.at.press('Down')
         # Make sure we see the Administrator in the Users list
         self.assertSeen('Administrator', timeout=10)
+        self.assertNotSeen('00000000', 'You need to cleanup a previous failed run!')
 
     def test_create_delete_group(self):
         # Open the Action Menu
