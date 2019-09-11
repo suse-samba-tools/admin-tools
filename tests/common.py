@@ -5,6 +5,7 @@ from samba.credentials import Credentials, MUST_USE_KERBEROS
 from getpass import getpass
 from subprocess import Popen, PIPE
 import re, six
+from time import sleep
 
 class AdminToolsTestCase(unittest.TestCase):
     def assertSeen(self, what, msg=None, timeout=10):
@@ -13,6 +14,16 @@ class AdminToolsTestCase(unittest.TestCase):
         except hecate.hecate.Timeout:
             pass
         self.assertIn(what, self.at.screenshot(), msg)
+
+    def assertNotSeen(self, what, msg=None, timeout=10):
+        sleep(.5)
+        slept = 0
+        while slept < timeout:
+            slept += .1
+            if what not in self.at.screenshot():
+                break
+            sleep(.1)
+        self.assertNotIn(what, self.at.screenshot(), msg)
 
     def __validate_kinit(self):
         return Popen(['klist', '-s'], stdout=PIPE, stderr=PIPE).wait() == 0

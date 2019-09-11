@@ -64,8 +64,7 @@ class TestADUC(AdminToolsTestCase):
         self.at.press('Enter') # Delete
         self.assertSeen("Are you sure you want to delete '%s'?" % gname)
         self.at.press('Enter') # Yes
-        sleep(3)
-        self.assertNotIn(gname, self.at.screenshot(), 'Group found after deletion!')
+        self.assertNotSeen(gname, 'Group found after deletion!')
 
     def test_create_delete_user(self):
         # Open the Action Menu
@@ -141,8 +140,7 @@ class TestADUC(AdminToolsTestCase):
         self.at.press('Enter') # Delete
         self.assertSeen("Are you sure you want to delete '%s'?" % ' '.join([fname, ini, lname]))
         self.at.press('Enter') # Yes
-        sleep(3)
-        self.assertNotIn(' '.join([fname, ini, lname]), self.at.screenshot(), 'User found after deletion!')
+        self.assertNotSeen(' '.join([fname, ini, lname]), 'User found after deletion!')
 
     def test_create_delete_ou(self):
         # Highlight the domain
@@ -186,8 +184,7 @@ class TestADUC(AdminToolsTestCase):
         self.at.press('Enter') # Delete
         self.assertSeen("Are you sure you want to delete '%s'?" % name)
         self.at.press('Enter') # Yes
-        sleep(3)
-        self.assertNotIn(name, 'OU found after deletion!')
+        self.assertNotSeen(name, 'OU found after deletion!')
 
     def tearDown(self):
         self.at.shutdown()
