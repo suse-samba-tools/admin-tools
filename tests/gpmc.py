@@ -146,6 +146,35 @@ class TestGPMC(AdminToolsTestCase):
         self.press('Enter') # OK
         self.assertSeen('Store passwords using reversible encryption\s*│Enabled')
 
+        ### Modify Account Lockout Policy ###
+        self.press('BTab')
+        self.press('Down')
+        self.press('Tab')
+        self.assertSeen('Account lockout duration\s*│Not Defined')
+        self.press('Enter') # Account lockout duration
+        self.assertSeen('LockoutDuration Properties')
+        self.press('10')
+        self.press('Tab')
+        self.press('Enter') # OK
+        self.assertSeen('Account lockout duration\s*│10 minutes')
+        self.press('Down')
+        self.assertSeen('Account lockout threshold\s*│Not Defined')
+        self.press('Enter') # Account lockout threshold
+        self.assertSeen('LockoutBadCount Properties')
+        self.press('3')
+        self.press('Tab')
+        self.press('Enter') # OK
+        self.assertSeen('Account lockout threshold\s*│3 invalid logon attempts')
+        for _ in range(0, 2):
+            self.press('Down')
+        self.assertSeen('Reset account lockout counter after\s*│Not Defined')
+        self.press('Enter') # Reset account lockout counter after
+        self.assertSeen('ResetLockoutCount Properties')
+        self.press('10')
+        self.press('Tab')
+        self.press('Enter') # OK
+        self.assertSeen('Reset account lockout counter after\s*│10 minutes')
+
         ### Close the Group Policy Management Editor ###
         self.press('Tab')
         self.press('Enter') # File
