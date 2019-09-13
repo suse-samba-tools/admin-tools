@@ -18,6 +18,13 @@ class TestGPMC(AdminToolsTestCase):
         self.assertSeen('Default Domain Policy')
         self.assertNotSeen('00000000', 'You need to cleanup a previous failed run!')
 
+    def __select_gpo_by_name(self, name):
+        for _ in range(0, 50):
+            self.press('Up')
+        while '┌%s─' % name not in self.at.screenshot():
+            self.press('Down')
+        self.assertSeen('┌%s─' % name)
+
     def test_create_delete_gpo(self):
         self.__open_gpmc()
 
@@ -35,10 +42,9 @@ class TestGPMC(AdminToolsTestCase):
 
         ### Verify creation ###
         self.assertSeen(gpo_name)
+        sleep(3)
         self.press('Tab')
-        for _ in range(0, 2):
-            self.press('Down')
-        self.assertSeen('┌%s─' % gpo_name)
+        self.__select_gpo_by_name(gpo_name)
 
         ### Delete the GPO ###
         self.press('BTab')
