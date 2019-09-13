@@ -6,6 +6,10 @@ from getpass import getpass
 from subprocess import Popen, PIPE
 import re, six
 from time import sleep
+import random, string
+
+def randomName(length=10):
+    return ''.join(random.choice(string.ascii_lowercase) for i in range(length)).title()
 
 class AdminToolsTestCase(unittest.TestCase):
     def assertSeen(self, what, msg=None, timeout=10):

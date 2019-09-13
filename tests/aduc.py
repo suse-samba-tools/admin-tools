@@ -1,12 +1,7 @@
 import unittest
 import hecate
-import random
-import string
 from time import sleep
-from common import AdminToolsTestCase
-
-def randomName(length=10):
-    return ''.join(random.choice(string.ascii_lowercase) for i in range(length)).title()
+from common import AdminToolsTestCase, randomName
 
 class TestADUC(AdminToolsTestCase):
     def __open_aduc(self):
