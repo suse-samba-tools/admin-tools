@@ -17,17 +17,17 @@ class AdminToolsTestCase(unittest.TestCase):
             self.at.await_text(what, timeout=timeout)
         except hecate.hecate.Timeout:
             pass
-        self.assertIn(what, self.at.screenshot(), msg)
+        self.assertRegex(self.at.screenshot(), what, msg)
 
     def assertNotSeen(self, what, msg=None, timeout=10):
         sleep(.5)
         slept = 0
         while slept < timeout:
             slept += .1
-            if what not in self.at.screenshot():
+            if not re.search(what, self.at.screenshot()):
                 break
             sleep(.1)
-        self.assertNotIn(what, self.at.screenshot(), msg)
+        self.assertNotRegex(self.at.screenshot(), what, msg)
 
     def press(self, msg):
         self.at.press(msg)

@@ -378,7 +378,7 @@ class TestADUC(AdminToolsTestCase):
         self.press('Right')
         self.assertSeen('┌Street:─') # Address Tab
         self.press('Right') # Account Tab
-        self.assertSeen('[ ] Account is disabled', 'Account should not be disabled!')
+        self.assertSeen('\[ \] Account is disabled', 'Account should not be disabled!')
         for _ in range(0, 5):
             self.press('Tab')
         self.press('Space') # Check 'Account is disabled'
@@ -393,7 +393,7 @@ class TestADUC(AdminToolsTestCase):
         self.press('Right')
         self.assertSeen('┌Street:─') # Address Tab
         self.press('Right') # Account Tab
-        self.assertSeen('[x] Account is disabled', 'Account should be disabled!')
+        self.assertSeen('\[x\] Account is disabled', 'Account should be disabled!')
 
         ### Modify user shell ###
         self.press('Right') # Unix Attributes tab
