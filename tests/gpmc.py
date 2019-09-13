@@ -175,6 +175,54 @@ class TestGPMC(AdminToolsTestCase):
         self.press('Enter') # OK
         self.assertSeen('Reset account lockout counter after\s*│10 minutes')
 
+        ### Modify Kerberos Policy ###
+        self.press('BTab')
+        self.press('Down')
+        self.press('Tab')
+        self.assertSeen('Maximum lifetime for user ticket\s*│Not Defined')
+        self.press('Enter') # Maximum lifetime for user ticket
+        self.assertSeen('MaxTicketAge Properties')
+        self.press('10')
+        self.press('Tab')
+        self.press('Enter') # OK
+        self.assertSeen('Maximum lifetime for user ticket\s*│10 hours')
+        self.press('Down')
+        self.assertSeen('Maximum lifetime for user ticket renewal\s*│Not Defined')
+        self.press('Enter') # Maximum lifetime for user ticket renewal
+        self.assertSeen('MaxRenewAge Properties')
+        self.press('600')
+        self.press('Tab')
+        self.press('Enter') # OK
+        self.assertSeen('Maximum lifetime for user ticket renewal\s*│600 minutes')
+        for _ in range(0, 2):
+            self.press('Down')
+        self.assertSeen('Maximum lifetime for service ticket\s*│Not Defined')
+        self.press('Enter') # Maximum lifetime for service ticket
+        self.assertSeen('MaxServiceAge Properties')
+        self.press('600')
+        self.press('Tab')
+        self.press('Enter') # OK
+        self.assertSeen('Maximum lifetime for service ticket\s*│600 minutes')
+        for _ in range(0, 3):
+            self.press('Down')
+        self.assertSeen('Maximum tolerance for computer clock synchronization\s*│Not Defined')
+        self.press('Enter') # Maximum tolerance for computer clock synchronization
+        self.assertSeen('MaxClockSkew Properties')
+        self.press('5')
+        self.press('Tab')
+        self.press('Enter') # OK
+        self.assertSeen('Maximum tolerance for computer clock synchronization\s*│5 minutes')
+        for _ in range(0, 4):
+            self.press('Down')
+        self.assertSeen('Enforce user logon restrictions\s*│Not Defined')
+        self.press('Enter') # Enforce user logon restrictions
+        self.assertSeen('TicketValidateClient Properties')
+        self.press('Down')
+        self.press('Enter')
+        self.press('Tab')
+        self.press('Enter') # OK
+        self.assertSeen('Enforce user logon restrictions\s*│Enabled')
+
         ### Close the Group Policy Management Editor ###
         self.press('Tab')
         self.press('Enter') # File
