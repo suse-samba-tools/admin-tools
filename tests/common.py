@@ -49,9 +49,12 @@ class AdminToolsTestCase(unittest.TestCase):
     def kinit(self):
         while not self.__validate_kinit():
             print('Domain administrator credentials are required to run the test.')
-            username = input('Domain user principal name%s: ' % (' (%s)' % self.creds.get_username() if self.creds.get_username() else ''))
+            upn = '%s@%s' % (self.creds.get_username(), self.creds.get_domain()) if self.creds.get_username() and self.creds.get_domain() else None
+            username = input('Domain user principal name%s: ' % (' (%s)' % upn if upn else ''))
             if username:
                 self.creds.set_username(username)
+            else:
+                self.creds.set_username(upn)
             self.creds.set_password(getpass('Password for %s: ' % self.creds.get_username()))
             kinit_for_gssapi(self.creds, None)
 
