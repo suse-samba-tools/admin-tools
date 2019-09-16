@@ -237,3 +237,95 @@ class TestGPMC(AdminToolsTestCase):
         self.assertSeen('Do you want to delete this GPO and all links')
         self.press('Enter') # Yes
         self.assertNotSeen(gpo_name)
+
+    def test_modify_browser_maintenance_gpo(self):
+        self.__open_gpmc()
+
+        ### Create a GPO ###
+        self.press('Down')
+        self.press('BTab')
+        self.press('Enter') # Action menu
+        self.assertSeen('Create a GPO in this domain, and Link it here...')
+        self.press('Enter')
+        self.assertSeen('New GPO')
+        gpo_name = '00000000%s' % randomName(10)
+        self.press(gpo_name)
+        self.press('Tab')
+        self.press('Enter') # OK
+
+        ### Verify creation ###
+        self.assertSeen(gpo_name)
+        sleep(3)
+        self.press('Tab')
+        self.__select_gpo_by_name(gpo_name)
+
+        ### Modify Browser Proxy Settings Policy ###
+        self.press('BTab')
+        self.press('Enter') # Action menu
+        self.assertSeen('Edit...')
+        self.press('Enter') # Edit
+        self.assertSeen('Group Policy Management Editor')
+        for _ in range(0, 3):
+            self.press('Down')
+        self.press('Space') # Policies
+        self.press('Down')
+        self.press('Space') # OS Settings
+        self.press('Down')
+        self.press('Space') # Internet Browser Maintenance
+        self.press('Down') # Connection
+        self.press('Tab')
+        self.assertSeen('Proxy Settings\s*│Settings for proxy')
+        self.press('Enter') # Proxy Settings
+        self.assertSeen('Proxy Settings Properties')
+        self.press('Down')
+        self.press('Up')
+        self.press('Enter') # Enable proxy settings
+        self.press('Tab')
+        self.press('example.com') # Address of HTTP proxy
+        for _ in range(0, 5):
+            self.press('Tab')
+        self.press('Down')
+        self.press('Up')
+        self.press('Enter') # Use the same proxy server for all addresses
+        for _ in range(0, 2):
+            self.press('Tab')
+        self.press('Enter') # OK
+        ### Reopen the dialog and ensure the settings were saved ###
+        self.press('Enter') # Proxy Settings
+        self.assertSeen('Enable proxy settings\s*│\s*│\s*│\s*│\s*Enabled')
+        self.assertSeen('Address of HTTP proxy\s*│\s*│\s*│\s*│\s*example.com')
+        self.assertSeen('Use the same proxy server for all addresses\s*│\s*│\s*│\s*│\s*Enabled')
+        for _ in range(0, 2):
+            self.press('BTab')
+        self.press('Enter') # Cancel
+
+        ### Modify Browser User Agent String Policy ###
+        self.press('Down')
+        self.assertSeen('User Agent String\s*│Settings for user agent string')
+        self.press('Enter')
+        self.assertSeen('User Agent String Properties')
+        self.press('AppleTV6,2/11.1')
+        self.press('Tab')
+        self.press('Enter') # OK
+        ### Reopen the dialog and ensure the settings were saved ###
+        self.press('Down')
+        self.press('Enter')
+        self.assertSeen('AppleTV6,2/11.1')
+        for _ in range(0, 2):
+            self.press('BTab')
+        self.press('Enter') # Cancel
+
+        ### Close the Group Policy Management Editor ###
+        self.press('Tab')
+        self.press('Enter') # File
+        self.press('Enter') # Exit
+        self.__select_gpo_by_name(gpo_name)
+
+        ### Delete the GPO ###
+        self.press('BTab')
+        self.press('Enter') # Action menu
+        self.press('Down')
+        self.press('Enter') # Delete
+        self.assertSeen('Do you want to delete this GPO and all links')
+        self.press('Enter') # Yes
+        self.assertNotSeen(gpo_name)
