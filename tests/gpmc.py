@@ -86,12 +86,16 @@ class TestGPMC(AdminToolsTestCase):
         self.assertSeen('Group Policy Management Editor')
         self.press('Down') # Policies
         self.press('Space')
+        self.assertSeen('OS Settings')
         self.press('Down') # OS Settings
         self.press('Space')
+        self.assertSeen('Security Settings')
         self.press('Down') # Security Settings
         self.press('Space')
+        self.assertSeen('Account Policy')
         self.press('Down') # Account Policy
         self.press('Space')
+        self.assertSeen('Password Policy')
         self.press('Down') # Password Policy
         self.assertSeen('Minimum password age\s*│Not Defined')
         self.press('Tab')
@@ -270,10 +274,13 @@ class TestGPMC(AdminToolsTestCase):
         for _ in range(0, 3):
             self.press('Down')
         self.press('Space') # Policies
+        self.assertSeen('OS Settings')
         self.press('Down')
         self.press('Space') # OS Settings
+        self.assertSeen('Internet Browser Maintenance')
         self.press('Down')
         self.press('Space') # Internet Browser Maintenance
+        self.assertSeen('Connection')
         self.press('Down') # Connection
         self.press('Tab')
         self.assertSeen('Proxy Settings\s*│Settings for proxy')
