@@ -1,0 +1,4 @@
+[submodule "tests/depends/yast2-dns-manager"]
+	path = tests/depends/yast2-dns-manager
+	url = https://github.com/yast/yast2-dns-manager.git
+	branch = master

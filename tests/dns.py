@@ -4,6 +4,7 @@ from time import sleep
 from common import AdminToolsTestCase, randomName
 from getpass import getpass
 from random import randint
+from SambaToolDnsAPI import zonelist, query, add_record, delete_record, delete_zone, create_zone, update_record
 
 class TestDNS(AdminToolsTestCase):
     def __open_dns(self):
@@ -75,6 +76,8 @@ class TestDNS(AdminToolsTestCase):
         self.press('Space') # Expand Forward Lookup Zones
         self.press('Down')
         self.assertSeen(fzone_name)
+        results = zonelist(self.creds.get_domain(), self.creds.get_username(), self.creds.get_password())
+        self.assertIn(fzone_name, results.keys())
 
         ### Delete a forward lookup zone ###
         self.press('BTab')
@@ -95,6 +98,8 @@ class TestDNS(AdminToolsTestCase):
         self.press('Space')
         sleep(1)
         self.assertNotSeen(fzone_name)
+        results = zonelist(self.creds.get_domain(), self.creds.get_username(), self.creds.get_password())
+        self.assertNotIn(fzone_name, results.keys())
 
     def test_create_delete_reverse_zone(self):
         self.__open_dns()
@@ -132,6 +137,8 @@ class TestDNS(AdminToolsTestCase):
             self.press('Tab')
         self.press('Space')
         self.assertSeen('[├└]──%s' % rzone_name)
+        results = zonelist(self.creds.get_domain(), self.creds.get_username(), self.creds.get_password())
+        self.assertIn(rzone_name, results.keys())
 
         ### Delete a reverse lookup zone ###
         self.__select_zone(rzone_name)
@@ -153,3 +160,5 @@ class TestDNS(AdminToolsTestCase):
         self.press('Space')
         sleep(1)
         self.assertNotSeen(rzone_name)
+        results = zonelist(self.creds.get_domain(), self.creds.get_username(), self.creds.get_password())
+        self.assertNotIn(rzone_name, results.keys())
