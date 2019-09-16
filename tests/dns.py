@@ -14,6 +14,7 @@ class TestDNS(AdminToolsTestCase):
         self.press('Enter')
         self.assertSeen('DNS Manager')
         self.press('BTab')
+        sleep(1)
         self.press('Enter') # Action
         self.assertSeen('Connect to DNS Server...')
         self.press('Enter')
