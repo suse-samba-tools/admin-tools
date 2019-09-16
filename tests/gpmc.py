@@ -21,8 +21,10 @@ class TestGPMC(AdminToolsTestCase):
     def __select_gpo_by_name(self, name):
         for _ in range(0, 50):
             self.press('Up')
-        while '┌%s─' % name not in self.at.screenshot():
+        timeout = 0
+        while '┌%s─' % name not in self.at.screenshot() and timeout < 50:
             self.press('Down')
+            timeout+=1
         self.assertSeen('┌%s─' % name)
 
     def test_create_delete_gpo(self):
