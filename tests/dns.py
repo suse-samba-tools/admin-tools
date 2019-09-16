@@ -3,6 +3,7 @@ import hecate
 from time import sleep
 from common import AdminToolsTestCase, randomName
 from getpass import getpass
+from random import randint
 
 class TestDNS(AdminToolsTestCase):
     def __open_dns(self):
@@ -32,6 +33,23 @@ class TestDNS(AdminToolsTestCase):
             self.press('BTab')
         self.press('Enter') # OK
         self.assertSeen('Forward Lookup Zones')
+
+    def __select_zone(self, name):
+        timeout = 0
+        while timeout < 50:
+            self.press('Down')
+            self.press('Tab')
+            self.press('Enter')
+            self.press('BTab')
+            if '%s Properties' % name in self.at.screenshot():
+                break
+            self.press('Enter') # Cancel
+            self.press('BTab')
+            timeout += 1
+        self.press('Enter') # Cancel
+        self.press('BTab')
+        self.press('Up')
+        self.press('Down')
 
     def test_create_delete_forward_zone(self):
         self.__open_dns()
@@ -76,3 +94,61 @@ class TestDNS(AdminToolsTestCase):
         self.press('Space')
         sleep(1)
         self.assertNotSeen(fzone_name)
+
+    def test_create_delete_reverse_zone(self):
+        self.__open_dns()
+        self.press('Tab')
+        for _ in range(0, 3):
+            self.press('Down')
+
+        ### Create a reverse lookup zone ###
+        self.press('BTab')
+        self.press('Enter') # Action
+        self.assertSeen('New Zone...')
+        self.press('Enter')
+        self.assertSeen('New Zone Wizard')
+        self.assertSeen('\(x\) IPv4 Reverse Lookup Zone')
+        for _ in range(0, 2):
+            self.press('Tab')
+        self.press('Enter') # Next
+        self.assertSeen('\(x\) Network ID:')
+        self.press('Tab')
+        ip1 = randint(1, 254)
+        self.press('%d' % ip1)
+        self.press('Tab')
+        ip2 = randint(1, 254)
+        self.press('%d' % ip2)
+        self.press('Tab')
+        ip3 = randint(1, 254)
+        self.press('%d' % ip3)
+        rzone_name = '%d.%d.%d.in-addr.arpa' % (ip3, ip2, ip1)
+        for _ in range(0, 2):
+            self.press('Tab')
+        self.press('Enter') # Finish
+        self.assertSeen('Zone %s created successfully' % rzone_name)
+        self.press('Enter') # Ok
+        for _ in range(0, 3):
+            self.press('Tab')
+        self.press('Space')
+        self.assertSeen('[├└]──%s' % rzone_name)
+
+        ### Delete a reverse lookup zone ###
+        self.__select_zone(rzone_name)
+        self.press('BTab')
+        self.press('Enter') # Action
+        self.assertSeen('│Delete\s*│')
+        for _ in range(0, 4):
+            self.press('Down')
+        self.press('Enter') # Delete
+        self.assertSeen('Do you want to delete the zone %s from the server?' % rzone_name)
+        self.press('Enter') # Yes
+        self.assertSeen('Zone %s deleted successfully' % rzone_name)
+        self.press('Enter') # Ok
+        sleep(3)
+        for _ in range(0, 3):
+            self.press('Tab')
+        for _ in range(0, 3):
+            self.press('Down')
+        self.press('Space')
+        sleep(1)
+        self.assertNotSeen(rzone_name)
