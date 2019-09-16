@@ -7,6 +7,7 @@ from subprocess import Popen, PIPE
 import re, six
 from time import sleep
 import random, string
+from configparser import ConfigParser
 
 def randomName(length=10):
     return ''.join(random.choice(string.ascii_lowercase) for i in range(length)).title()
@@ -50,6 +51,11 @@ class AdminToolsTestCase(unittest.TestCase):
         self.creds.set_kerberos_state(MUST_USE_KERBEROS)
         return True
 
+    def get_password(self):
+        if not self.creds.get_password():
+            self.creds.set_password(getpass('Password for %s: ' % self.creds.get_username()))
+        return self.creds.get_password()
+
     def kinit(self):
         while not self.__validate_kinit():
             print('Domain administrator credentials are required to run the test.')
@@ -64,8 +70,22 @@ class AdminToolsTestCase(unittest.TestCase):
 
     def setUp(self):
         self.creds = Credentials()
+        self.config = ConfigParser()
+        self.config.read('.tcreds')
+        if self.config.has_section('creds'):
+            self.creds.set_username('%s@%s' % (self.config.get('creds', 'username'), self.config.get('creds', 'domain')))
+            self.creds.set_domain(self.config.get('creds', 'domain'))
+            self.creds.set_password(self.config.get('creds', 'password'))
+            kinit_for_gssapi(self.creds, None)
         self.kinit()
         self.at = hecate.Runner("admin-tools", width=120, height=50)
 
     def tearDown(self):
         self.at.shutdown()
+        if self.creds.get_password():
+            if not self.config.has_section('creds'):
+                self.config.add_section('creds')
+            self.config.set('creds', 'username', self.creds.get_username())
+            self.config.set('creds', 'domain', self.creds.get_domain())
+            self.config.set('creds', 'password', self.creds.get_password())
+            self.config.write(open('.tcreds', 'w'))

@@ -6,8 +6,7 @@ from getpass import getpass
 
 class TestDNS(AdminToolsTestCase):
     def __open_dns(self):
-        if not self.creds.get_password():
-            self.creds.set_password(getpass('\nPassword for %s: ' % self.creds.get_username()))
+        password = self.get_password()
         self.assertSeen('Administrative Tools')
         for _ in range(0, 2):
             self.press('Down')
@@ -28,7 +27,7 @@ class TestDNS(AdminToolsTestCase):
             self.press('BSpace')
         self.press(self.creds.get_username())
         self.press('Tab')
-        self.press(self.creds.get_password())
+        self.press(password)
         for _ in range(0, 3):
             self.press('BTab')
         self.press('Enter') # OK
