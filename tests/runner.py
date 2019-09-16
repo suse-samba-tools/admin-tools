@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import unittest
-import aduc, gpmc
+import aduc, gpmc, dns
 
 if __name__ == "__main__":
     loader = unittest.TestLoader()
@@ -8,6 +8,7 @@ if __name__ == "__main__":
 
     suite.addTests(loader.loadTestsFromModule(aduc))
     suite.addTests(loader.loadTestsFromModule(gpmc))
+    suite.addTests(loader.loadTestsFromModule(dns))
 
     runner = unittest.TextTestRunner(verbosity=3)
     runner.run(suite)
