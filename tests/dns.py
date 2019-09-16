@@ -74,7 +74,7 @@ class TestDNS(AdminToolsTestCase):
         for _ in range(0, 3):
             self.press('Tab')
         self.press('Space') # Expand Forward Lookup Zones
-        self.press('Down')
+        self.__select_zone(fzone_name)
         self.assertSeen(fzone_name)
         results = zonelist(self.creds.get_domain(), self.creds.get_username(), self.creds.get_password())
         self.assertIn(fzone_name, results.keys())
