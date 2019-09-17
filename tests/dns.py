@@ -162,3 +162,78 @@ class TestDNS(AdminToolsTestCase):
         self.assertNotSeen(rzone_name)
         results = zonelist(self.creds.get_domain(), self.creds.get_username(), self.creds.get_password())
         self.assertNotIn(rzone_name, results.keys())
+
+    def test_create_delete_host_pointer_records(self):
+        fzone_name = ('00000000.%s.com' % randomName(10)).lower()
+        create_zone(self.creds.get_domain(), fzone_name, self.creds.get_username(), self.creds.get_password())
+        self.zones.append(fzone_name)
+        ip1 = randint(1, 254)
+        ip2 = randint(1, 254)
+        ip3 = randint(1, 254)
+        rzone_name = '%d.%d.%d.in-addr.arpa' % (ip3, ip2, ip1)
+        create_zone(self.creds.get_domain(), rzone_name, self.creds.get_username(), self.creds.get_password())
+        self.zones.append(rzone_name)
+        self.__open_dns()
+        self.press('Tab')
+        for _ in range(0, 2):
+            self.press('Down')
+        self.press('Space') # Expand Forward Lookup Zones
+        self.__select_zone(fzone_name)
+
+        ### Create Host/Pointer records ###
+        self.press('BTab')
+        self.press('Enter') # Action
+        self.assertSeen('│New Host \(A or AAAA\)\.\.\.\s*│')
+        self.press('Enter') # New Host
+        self.assertSeen('Name \(uses parent domain name if blank\):')
+        name = '00000000%s' % randomName(10)
+        self.press(name)
+        self.press('Tab')
+        ip4 = randint(1,254)
+        ip_addr = '%d.%d.%d.%d' % (ip1, ip2, ip3, ip4)
+        self.press(ip_addr)
+        self.press('Tab')
+        self.press('Space')
+        self.assertSeen('\[x\] Create associated pointer \(PTR\) record')
+        self.press('Tab')
+        self.press('Enter') # Add Host
+        self.assertSeen('Record added successfully')
+        self.press('Enter') # Ok
+        self.assertSeen('%s\s*│Host \(A\)\s*│%s' % (name, ip_addr))
+        ### Delete Host record ###
+        self.press('Up')
+        self.press('Down')
+        for _ in range(0, 2):
+            self.press('Tab')
+        self.press('Enter') # Action
+        self.assertSeen('│Delete\s*│')
+        self.press('Enter') # Delete
+        self.assertSeen('Do you want to delete the record %s from the server?' % name)
+        self.press('Enter') # Yes
+        self.assertSeen('Record deleted successfully')
+        self.press('Enter') # Ok
+        ### Verify deletion of Pointer record ###
+        sleep(1)
+        self.press('BTab')
+        timeout = 0
+        while timeout < 50:
+            self.press('Down')
+            if '%s│\s*│' % ip_addr in self.at.screenshot():
+                break
+            timeout+=1
+        self.press('Space')
+        self.assertSeen('[└├]──%s' % rzone_name)
+        timeout = 0
+        while timeout < 50:
+            self.press('Down')
+            self.assertNotSeen(ip_addr)
+            timeout+=1
+
+    def setUp(self):
+        super(TestDNS, self).setUp()
+        self.zones = []
+
+    def tearDown(self):
+        for zone in self.zones:
+            delete_zone(self.creds.get_domain(), zone, self.creds.get_username(), self.creds.get_password())
+        super(TestDNS, self).tearDown()
