@@ -273,6 +273,52 @@ class TestDNS(AdminToolsTestCase):
         sleep(3)
         self.assertNotSeen(alias)
 
+    def test_create_delete_mx_record(self):
+        fzone_name = ('00000000.%s.com' % randomName(10)).lower()
+        create_zone(self.creds.get_domain(), fzone_name, self.creds.get_username(), self.creds.get_password())
+        self.zones.append(fzone_name)
+        self.__open_dns()
+        self.press('Tab')
+        for _ in range(0, 2):
+            self.press('Down')
+        self.press('Space') # Expand Forward Lookup Zones
+        self.__select_zone(fzone_name)
+
+        ### Create MX record ###
+        self.press('BTab')
+        self.press('Enter') # Action
+        self.assertSeen('│New Mail Exchanger \(MX\)\.\.\.\s*│')
+        for _ in range(0, 2):
+            self.press('Down')
+        self.press('Enter') # New Mail Exchanger
+        self.assertSeen('New Resource Record')
+        self.press('Tab')
+        mx = '00000000%s' % randomName(10)
+        self.press(mx)
+        self.press('Tab')
+        self.press(self.creds.get_domain().lower())
+        for _ in range(0, 2):
+            self.press('Tab')
+        self.press('Enter') # OK
+        self.assertSeen('Record added successfully')
+        self.press('Enter') # Ok
+        self.assertSeen('│%s\s*│Mail Exchanger \(MX\)\s*│\[10\] %s\.\s*│' % (mx, self.creds.get_domain().lower()))
+
+        ### Delete MX record ###
+        self.press('Up')
+        self.press('Down')
+        for _ in range(0, 2):
+            self.press('Tab')
+        self.press('Enter') # Action
+        self.assertSeen('│Delete\s*│')
+        self.press('Enter') # Delete
+        self.assertSeen('Do you want to delete the record %s from the server\?' % mx)
+        self.press('Enter') # Yes
+        self.assertSeen('Record deleted successfully')
+        self.press('Enter') # Ok
+        sleep(3)
+        self.assertNotSeen(mx)
+
     def setUp(self):
         super(TestDNS, self).setUp()
         self.zones = []
