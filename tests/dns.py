@@ -15,7 +15,7 @@ class TestDNS(AdminToolsTestCase):
         self.press('Enter')
         self.assertSeen('DNS Manager')
         self.press('BTab')
-        sleep(1)
+        sleep(3)
         self.press('Enter') # Action
         self.assertSeen('Connect to DNS Server...')
         self.press('Enter')
@@ -213,7 +213,7 @@ class TestDNS(AdminToolsTestCase):
         self.assertSeen('Record deleted successfully')
         self.press('Enter') # Ok
         ### Verify deletion of Pointer record ###
-        sleep(1)
+        sleep(3)
         self.press('BTab')
         timeout = 0
         while timeout < 50:
