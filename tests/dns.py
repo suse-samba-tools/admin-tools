@@ -229,6 +229,50 @@ class TestDNS(AdminToolsTestCase):
             self.assertNotSeen(ip_addr)
             timeout+=1
 
+    def test_create_delete_cname_record(self):
+        fzone_name = ('00000000.%s.com' % randomName(10)).lower()
+        create_zone(self.creds.get_domain(), fzone_name, self.creds.get_username(), self.creds.get_password())
+        self.zones.append(fzone_name)
+        self.__open_dns()
+        self.press('Tab')
+        for _ in range(0, 2):
+            self.press('Down')
+        self.press('Space') # Expand Forward Lookup Zones
+        self.__select_zone(fzone_name)
+
+        ### Create CNAME record ###
+        self.press('BTab')
+        self.press('Enter') # Action
+        self.assertSeen('│New Alias \(CNAME\)\.\.\.\s*│')
+        self.press('Down')
+        self.press('Enter') # New Alias
+        self.assertSeen('New Resource Record')
+        self.press('Tab')
+        alias = '00000000%s' % randomName(10)
+        self.press(alias)
+        self.press('Tab')
+        self.press(self.creds.get_domain().lower())
+        self.press('Tab')
+        self.press('Enter') # OK
+        self.assertSeen('Record added successfully')
+        self.press('Enter') # Ok
+        self.assertSeen('│%s\s*│Alias \(CNAME\)\s*│%s\.\s*│' % (alias, self.creds.get_domain().lower()))
+
+        ### Delete CNAME record ###
+        self.press('Up')
+        self.press('Down')
+        for _ in range(0, 2):
+            self.press('Tab')
+        self.press('Enter') # Action
+        self.assertSeen('│Delete\s*│')
+        self.press('Enter') # Delete
+        self.assertSeen('Do you want to delete the record %s from the server\?' % alias)
+        self.press('Enter') # Yes
+        self.assertSeen('Record deleted successfully')
+        self.press('Enter') # Ok
+        sleep(3)
+        self.assertNotSeen(alias)
+
     def setUp(self):
         super(TestDNS, self).setUp()
         self.zones = []
