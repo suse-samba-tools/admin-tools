@@ -319,6 +319,64 @@ class TestDNS(AdminToolsTestCase):
         sleep(3)
         self.assertNotSeen(mx)
 
+    def test_create_delete_txt_record(self):
+        fzone_name = ('00000000.%s.com' % randomName(10)).lower()
+        create_zone(self.creds.get_domain(), fzone_name, self.creds.get_username(), self.creds.get_password())
+        self.zones.append(fzone_name)
+        self.__open_dns()
+        self.press('Tab')
+        for _ in range(0, 2):
+            self.press('Down')
+        self.press('Space') # Expand Forward Lookup Zones
+        self.__select_zone(fzone_name)
+
+        ### Create the TXT record ###
+        self.press('BTab')
+        self.press('Enter') # Action
+        self.assertSeen('Other New Records...')
+        for _ in range(0, 4):
+            self.press('Down')
+        self.press('Enter') # Other New Records
+        self.assertSeen('New Resource Record Type')
+        for _ in range(0, 5):
+            self.press('Down') # Text (TXT)
+        self.press('Tab')
+        self.press('Enter') # Create Record
+        self.assertSeen('Record name')
+        self.press('Tab')
+        rname = randomName(10)
+        self.press(rname)
+        self.press('Tab')
+        rtext = ' '.join([randomName(5) for _ in range(0, 4)])
+        self.press(rtext)
+        self.press('Tab')
+        self.press('Enter') # OK
+        for _ in range(0, 2):
+            self.press('Tab')
+        self.press('Enter') # Done
+        self.assertSeen('Record added successfully')
+        self.press('Enter') # Ok
+
+        ### Verify the TXT record ###
+        self.press('Enter') # Record Properties
+        self.assertSeen('%s Properties' % rname)
+        self.assertSeen(rtext)
+        for _ in range(0, 3):
+            self.press('Tab')
+        self.press('Enter') # Cancel
+
+        ### Delete the TXT record ###
+        for _ in range(0, 2):
+            self.press('Tab')
+        self.press('Enter') # Action
+        self.assertSeen('Delete')
+        self.press('Enter') # Delete
+        self.assertSeen('Do you want to delete the record %s from the server?' % rname)
+        self.press('Enter') # Yes
+        self.assertSeen('Record deleted successfully')
+        self.press('Enter') # Ok
+        self.assertNotSeen(rname)
+
     def setUp(self):
         super(TestDNS, self).setUp()
         self.zones = []
