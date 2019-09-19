@@ -452,17 +452,25 @@ class TestADUC(AdminToolsTestCase):
         self.press('BTab')
         self.press('Enter') # Cancel
 
-    def test_group_assignment(self):
-        self.__open_aduc()
+    def __testuser(self):
         uname = '00000000%s' % randomName(5)
         self.users.append(uname)
         try:
             self.conn.newuser(uname, randomName(20))
         except ldb.LdbError:
             pass # Ignore password issues
+        return uname
+
+    def __testgroup(self):
         gname = '00000000%s' % randomName(5)
         self.groups.append(gname)
         self.conn.newgroup(gname)
+        return gname
+
+    def test_group_assignment(self):
+        self.__open_aduc()
+        uname = self.__testuser()
+        gname = self.__testgroup()
         self.press('Up')
         self.press('Down') # Refresh the page
         self.assertSeen(uname)
@@ -503,6 +511,32 @@ class TestADUC(AdminToolsTestCase):
         self.press('Enter') # OK
         result = self.conn.search(None, SCOPE_SUBTREE, '(samaccountname=%s)' % uname, ['memberOf'])[0]
         self.assertNotIn('memberOf', result)
+
+    def test_object_search(self):
+        self.__open_aduc()
+        uname = self.__testuser()
+        self.press('BTab')
+        self.press('Enter') # Action
+        self.assertSeen('Find...')
+        self.press('Enter') # Find
+        self.assertSeen('Find Users, Contacts, and Groups')
+        for _ in range(0, 2):
+            self.press('Tab')
+        self.press(uname)
+        for _ in range(0, 2):
+            self.press('Tab')
+        self.press('Enter') # Find Now
+        self.assertSeen('%s\s*│User' % uname)
+        for _ in range(0, 2):
+            self.press('Tab')
+        self.press('Enter') # User Properties
+        self.assertSeen('%s Properties' % uname)
+        for _ in range(0, 2):
+            self.press('BTab')
+        self.press('Enter') # Cancel
+        self.press('BTab')
+        self.press('Enter') # Cancel
+        self.assertSeen('Active Directory Users and Computers') # Make sure the dialog closed ok
 
     def setUp(self):
         super(TestADUC, self).setUp()
