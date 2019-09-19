@@ -2,6 +2,7 @@ import unittest
 import hecate
 from time import sleep
 from common import AdminToolsTestCase, randomName
+from adcommon.yldap import *
 
 class TestADUC(AdminToolsTestCase):
     def __open_aduc(self):
@@ -434,3 +435,90 @@ class TestADUC(AdminToolsTestCase):
         self.assertSeen("Are you sure you want to delete '%s'?" % ' '.join([fname, ini, lname]))
         self.press('Enter') # Yes
         self.assertNotSeen(' '.join([fname, ini, lname]), 'User found after deletion!')
+
+    def __select_obj(self, name):
+        timeout = 0
+        while timeout < 50:
+            self.press('Enter')
+            self.assertSeen('Properties')
+            if ('%s Properties' % name) in self.at.screenshot():
+                break
+            self.press('BTab')
+            self.press('BTab')
+            self.press('Enter') # Cancel
+            self.press('Down')
+            timeout+=1
+        self.press('BTab')
+        self.press('BTab')
+        self.press('Enter') # Cancel
+
+    def test_group_assignment(self):
+        self.__open_aduc()
+        uname = '00000000%s' % randomName(5)
+        self.users.append(uname)
+        try:
+            self.conn.newuser(uname, randomName(20))
+        except ldb.LdbError:
+            pass # Ignore password issues
+        gname = '00000000%s' % randomName(5)
+        self.groups.append(gname)
+        self.conn.newgroup(gname)
+        self.press('Up')
+        self.press('Down') # Refresh the page
+        self.assertSeen(uname)
+        self.assertSeen(gname)
+
+        self.press('Tab')
+        self.__select_obj(gname)
+        self.press('Enter')
+        self.assertSeen('%s Properties' % gname)
+        self.press('Right')
+        self.assertSeen('Members:')
+        self.press('Tab')
+        self.press('Tab')
+        self.press('Enter') # Add
+        self.press('Tab')
+        self.press(uname)
+        self.press('Tab')
+        self.press('Enter') # Check Name
+        self.press('Tab')
+        self.press('Enter') # OK
+        for _ in range(0, 4):
+            self.press('Tab')
+        self.press('Enter') # OK
+        result = self.conn.search(None, SCOPE_SUBTREE, '(samaccountname=%s)' % uname, ['memberOf'])[0]
+        self.assertIn('memberOf', result)
+        self.assertIn(gname, str(result['memberOf']))
+        for _ in range(0, 3):
+            self.press('Tab')
+        self.press('Enter') # Group Properties
+        self.assertSeen('%s Properties' % gname)
+        self.press('Right')
+        self.assertSeen('Members:')
+        for _ in range(0, 3):
+            self.press('Tab')
+        self.press('Enter') # Remove
+        for _ in range(0, 3):
+            self.press('Tab')
+        self.press('Enter') # OK
+        result = self.conn.search(None, SCOPE_SUBTREE, '(samaccountname=%s)' % uname, ['memberOf'])[0]
+        self.assertNotIn('memberOf', result)
+
+    def setUp(self):
+        super(TestADUC, self).setUp()
+        self.conn = Ldap(self.lp, self.creds)
+        self.users = []
+        self.groups = []
+
+    def tearDown(self):
+        for user in self.users:
+            try:
+                self.conn.deleteuser(user)
+            except Exception:
+                pass # Ignore deletion failures
+        for group in self.groups:
+            try:
+                self.conn.deletegroup(group)
+            except Exception:
+                pass # Ignore deletion failures
+        super(TestADUC, self).tearDown()

@@ -2,6 +2,7 @@ import unittest
 import hecate
 from adcommon.creds import kinit_for_gssapi
 from samba.credentials import Credentials, MUST_USE_KERBEROS
+from samba.param import LoadParm
 from getpass import getpass
 from subprocess import Popen, PIPE
 import re, six
@@ -35,10 +36,11 @@ class AdminToolsTestCase(unittest.TestCase):
         sleep(.1)
 
     def __validate_kinit(self):
-        return Popen(['klist', '-s'], stdout=PIPE, stderr=PIPE).wait() == 0
-
-    def __validate_kinit(self):
         out, _ = Popen(['klist'], stdout=PIPE, stderr=PIPE).communicate()
+        m = re.findall(six.b('Ticket cache:\s*(.*)'), out)
+        if len(m) != 1:
+            return False
+        self.creds.set_named_ccache(m[0].decode())
         m = re.findall(six.b('Default principal:\s*(\w+)@([\w\.]+)'), out)
         if len(m) == 0:
             return False
@@ -69,6 +71,11 @@ class AdminToolsTestCase(unittest.TestCase):
             kinit_for_gssapi(self.creds, None)
 
     def setUp(self):
+        self.lp = LoadParm()
+        try:
+            self.lp.load_default()
+        except RuntimeError:
+            pass
         self.creds = Credentials()
         self.config = ConfigParser()
         self.config.read('.tcreds')
@@ -78,6 +85,7 @@ class AdminToolsTestCase(unittest.TestCase):
             self.creds.set_password(self.config.get('creds', 'password'))
             kinit_for_gssapi(self.creds, None)
         self.kinit()
+        self.lp.set('realm', self.creds.get_domain())
         self.at = hecate.Runner("admin-tools", width=120, height=50)
 
     def tearDown(self):

@@ -2,3 +2,7 @@
 	path = tests/depends/yast2-dns-manager
 	url = https://github.com/yast/yast2-dns-manager.git
 	branch = master
+[submodule "tests/depends/yast2-adcommon-python"]
+	path = tests/depends/yast2-adcommon-python
+	url = git@github.com:yast/yast2-adcommon-python.git
+	branch = master
