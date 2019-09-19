@@ -377,6 +377,64 @@ class TestDNS(AdminToolsTestCase):
         self.press('Enter') # Ok
         self.assertNotSeen(rname)
 
+    def test_delegation(self):
+        fzone_name = ('00000000.%s.com' % randomName(10)).lower()
+        create_zone(self.creds.get_domain(), fzone_name, self.creds.get_username(), self.creds.get_password())
+        self.zones.append(fzone_name)
+        self.__open_dns()
+        self.press('Tab')
+        for _ in range(0, 2):
+            self.press('Down')
+        self.press('Space') # Expand Forward Lookup Zones
+        self.__select_zone(fzone_name)
+
+        ### Create a delegation ###
+        self.press('BTab')
+        self.press('Enter') # Action
+        for _ in range(0, 3):
+            self.press('Down')
+        self.assertSeen('New Delegation...')
+        self.press('Enter') # New Delegation
+        self.assertSeen('New Delegation Wizard')
+        dname = randomName(10)
+        self.press(dname)
+        self.press('Tab')
+        self.press('Enter') # Next
+        self.assertSeen('Specify the names and IP addresses of the DNS servers')
+        self.press('Tab')
+        self.press('Enter') # Add
+        self.assertSeen('New Name Server Record')
+        self.press(self.creds.get_domain())
+        self.press('Tab')
+        self.press('Enter') # Resolve
+        for _ in range(0, 3):
+            self.press('Tab')
+        self.press('Enter') # OK
+        for _ in range(0, 4):
+            self.press('Tab')
+        self.press('Enter') # Finish
+        self.assertSeen(dname)
+
+        ### Validate new delegation ###
+        fqdn = '%s.%s' % (dname, fzone_name)
+        self.press('Enter') # Properties
+        self.assertSeen('%s Properties' % fqdn)
+        self.press('BTab')
+        self.press('Enter') # Cancel
+
+        ### Delete the new delegation ###
+        for _ in range(0, 2):
+            self.press('Tab')
+        self.press('Enter') # Action
+        self.assertSeen('Delete')
+        self.press('Enter') # Delete
+        self.assertSeen('Do you want to delete the record %s from the server?' % fqdn)
+        self.press('Enter') # Yes
+        self.assertSeen('Record deleted successfully')
+        self.press('Enter') # Ok
+        sleep(3)
+        self.assertNotSeen(dname)
+
     def setUp(self):
         super(TestDNS, self).setUp()
         self.zones = []
