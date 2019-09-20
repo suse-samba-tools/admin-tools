@@ -31,6 +31,8 @@ script:
   - pushd usr && find . -type f -exec sed -i -e 's#/usr#././#g' {} \; && popd
   # Cleanup python2
   - find $BUILD_APPDIR/ -name python2* -exec rm -rf {} +
+  # More cleanup
+  - rm -rf $BUILD_APPDIR/etc $BUILD_APPDIR/var $BUILD_APPDIR/root
   # Create the desktop file
   - echo "[Desktop Entry]"  >  $BUILD_APPDIR/admin-tools.desktop
   - echo "Name=admin-tools"   >> $BUILD_APPDIR/admin-tools.desktop
