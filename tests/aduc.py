@@ -24,12 +24,12 @@ class TestADUC(AdminToolsTestCase):
         # Open the Action Menu
         self.press('BTab')
         self.press('Enter')
-        self.assertSeen('│New')
+        self.assertSeen('New')
         # Select New
         self.press('Down')
         self.press('Enter')
         # Select Group
-        self.assertSeen('│Group')
+        self.assertSeen('Group')
         for _ in range(0, 2):
             self.press('Down')
         self.press('Enter')
@@ -55,7 +55,7 @@ class TestADUC(AdminToolsTestCase):
         self.press('Tab')
         self.press('Tab')
         self.press('Enter') # Action menu
-        self.assertSeen('│Delete')
+        self.assertSeen('Delete')
         self.press('Down')
         self.press('Enter') # Delete
         self.assertSeen("Are you sure you want to delete '%s'?" % gname)
@@ -67,12 +67,12 @@ class TestADUC(AdminToolsTestCase):
         # Open the Action Menu
         self.press('BTab')
         self.press('Enter')
-        self.assertSeen('│New')
+        self.assertSeen('New')
         # Select New
         self.press('Down')
         self.press('Enter')
         # Select User
-        self.assertSeen('│User')
+        self.assertSeen('User')
         for _ in range(0, 6):
             self.press('Down')
         self.press('Enter')
@@ -132,7 +132,7 @@ class TestADUC(AdminToolsTestCase):
         self.press('Tab')
         self.press('Tab')
         self.press('Enter') # Action menu
-        self.assertSeen('│Delete')
+        self.assertSeen('Delete')
         self.press('Down')
         self.press('Enter') # Delete
         self.assertSeen("Are you sure you want to delete '%s'?" % ' '.join([fname, ini, lname]))
@@ -150,12 +150,12 @@ class TestADUC(AdminToolsTestCase):
         # Open the Action Menu
         self.press('BTab')
         self.press('Enter')
-        self.assertSeen('│New')
+        self.assertSeen('New')
         # Select New
         self.press('Down')
         self.press('Enter')
         # Select Organizational Unit
-        self.assertSeen('│Organizational Unit')
+        self.assertSeen('Organizational Unit')
         for _ in range(0, 5):
             self.press('Down')
         self.press('Enter')
@@ -177,7 +177,7 @@ class TestADUC(AdminToolsTestCase):
         self.press('Tab')
         self.press('Tab')
         self.press('Enter') # Action menu
-        self.assertSeen('│Delete')
+        self.assertSeen('Delete')
         self.press('Down')
         self.press('Enter') # Delete
         self.assertSeen("Are you sure you want to delete '%s'?" % name)
@@ -196,12 +196,12 @@ class TestADUC(AdminToolsTestCase):
         # Open the Action Menu
         self.press('BTab')
         self.press('Enter')
-        self.assertSeen('│New')
+        self.assertSeen('New')
         # Select New
         self.press('Down')
         self.press('Enter')
         # Select Organizational Unit
-        self.assertSeen('│Organizational Unit')
+        self.assertSeen('Organizational Unit')
         for _ in range(0, 5):
             self.press('Down')
         self.press('Enter')
@@ -223,12 +223,12 @@ class TestADUC(AdminToolsTestCase):
         # Open the Action Menu
         self.press('BTab')
         self.press('Enter')
-        self.assertSeen('│New')
+        self.assertSeen('New')
         # Select New
         self.press('Down')
         self.press('Enter')
         # Select Group
-        self.assertSeen('│Group')
+        self.assertSeen('Group')
         for _ in range(0, 2):
             self.press('Down')
         self.press('Enter')
@@ -254,7 +254,7 @@ class TestADUC(AdminToolsTestCase):
         self.press('Tab')
         self.press('Tab')
         self.press('Enter') # Action menu
-        self.assertSeen('│Move...')
+        self.assertSeen('Move...')
         self.press('Enter') # Move
         self.assertSeen('Move object into container:')
         self.press('Down') # Select the test OU
@@ -284,7 +284,7 @@ class TestADUC(AdminToolsTestCase):
         self.press('Tab')
         self.press('Tab')
         self.press('Enter') # Action menu
-        self.assertSeen('│Delete')
+        self.assertSeen('Delete')
         self.press('Down')
         self.press('Enter') # Delete
         self.assertSeen("Are you sure you want to delete '%s'?" % gname)
@@ -302,7 +302,7 @@ class TestADUC(AdminToolsTestCase):
         self.press('Tab')
         self.press('Tab')
         self.press('Enter') # Action menu
-        self.assertSeen('│Delete')
+        self.assertSeen('Delete')
         self.press('Down')
         self.press('Enter') # Delete
         self.assertSeen("Are you sure you want to delete '%s'?" % name)
@@ -314,12 +314,12 @@ class TestADUC(AdminToolsTestCase):
         # Open the Action Menu
         self.press('BTab')
         self.press('Enter')
-        self.assertSeen('│New')
+        self.assertSeen('New')
         # Select New
         self.press('Down')
         self.press('Enter')
         # Select User
-        self.assertSeen('│User')
+        self.assertSeen('User')
         for _ in range(0, 6):
             self.press('Down')
         self.press('Enter')
@@ -377,7 +377,7 @@ class TestADUC(AdminToolsTestCase):
         self.press('Enter')
         self.assertSeen('%s Properties' % ' '.join([fname, ini, lname]), 'Properties dialog not found')
         self.press('Right')
-        self.assertSeen('┌Street:─') # Address Tab
+        self.assertSeen('Street:') # Address Tab
         self.press('Right') # Account Tab
         self.assertSeen('\[ \] Account is disabled', 'Account should not be disabled!')
         for _ in range(0, 5):
@@ -392,7 +392,7 @@ class TestADUC(AdminToolsTestCase):
         self.press('Enter')
         self.assertSeen('%s Properties' % ' '.join([fname, ini, lname]), 'Properties dialog not found')
         self.press('Right')
-        self.assertSeen('┌Street:─') # Address Tab
+        self.assertSeen('Street:') # Address Tab
         self.press('Right') # Account Tab
         self.assertSeen('\[x\] Account is disabled', 'Account should be disabled!')
 
@@ -429,7 +429,7 @@ class TestADUC(AdminToolsTestCase):
         self.press('Tab')
         self.press('Tab')
         self.press('Enter') # Action menu
-        self.assertSeen('│Delete')
+        self.assertSeen('Delete')
         self.press('Down')
         self.press('Enter') # Delete
         self.assertSeen("Are you sure you want to delete '%s'?" % ' '.join([fname, ini, lname]))
