@@ -26,13 +26,16 @@ script:
   # Reinstall perl
   - rpm -r $BUILD_APPDIR -i /usr/src/packages/admin-tools-*/.build.binaries/perl.rpm /usr/src/packages/admin-tools-*/.build.binaries/perl-base.rpm --nodeps
   # Put y2base in our path
+  - rm -rf $BUILD_APPDIR/usr/bin
+  - mkdir $BUILD_APPDIR/usr/bin
   - ln -s ../lib/YaST2/bin/y2base usr/bin/y2base
   # Make binaries relocatable
   - pushd usr && find . -type f -exec sed -i -e 's#/usr#././#g' {} \; && popd
   # Cleanup python2
   - find $BUILD_APPDIR/ -name python2* -exec rm -rf {} +
   # More cleanup
-  - rm -rf $BUILD_APPDIR/etc $BUILD_APPDIR/var $BUILD_APPDIR/root
+  - rm -rf $BUILD_APPDIR/etc $BUILD_APPDIR/var $BUILD_APPDIR/root $BUILD_APPDIR/sbin $BUILD_APPDIR/run $BUILD_APPDIR/dev $BUILD_APPDIR/usr/src $BUILD_APPDIR/usr/include $BUILD_APPDIR/usr/sbin $BUILD_APPDIR/bin
+  - pushd $BUILD_APPDIR/usr/share && ls | grep -v YaST2 | xargs rm -rf && popd
   # Create the desktop file
   - echo "[Desktop Entry]"  >  $BUILD_APPDIR/admin-tools.desktop
   - echo "Name=admin-tools"   >> $BUILD_APPDIR/admin-tools.desktop
