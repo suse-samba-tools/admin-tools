@@ -299,6 +299,7 @@ class TestGPMC(AdminToolsTestCase):
         for _ in range(0, 2):
             self.press('Tab')
         self.press('Enter') # OK
+        self.assertNotSeen('Proxy Settings Properties')
         ### Reopen the dialog and ensure the settings were saved ###
         self.press('Enter') # Proxy Settings
         self.assertSeen('Enable proxy settings\s*│\s*│\s*│\s*│\s*Enabled')
