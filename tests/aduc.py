@@ -540,6 +540,52 @@ class TestADUC(AdminToolsTestCase):
         self.press('Enter') # Cancel
         self.assertSeen('Active Directory Users and Computers') # Make sure the dialog closed ok
 
+    def test_password_reset(self):
+        self.__open_aduc()
+        uname = self.__testuser()
+        self.press('Up')
+        self.press('Down') # Refresh the page
+        self.assertSeen(uname)
+
+        ### Reset the password ###
+        self.press('Tab')
+        self.__select_obj(uname)
+        for _ in range(0, 2):
+            self.press('Tab')
+        self.press('Enter') # Action
+        self.assertSeen('Reset Password...')
+        self.press('Down')
+        self.press('Enter') # Reset Password...
+        self.assertSeen('New password:')
+        self.press('locDCpass1')
+        self.press('Tab')
+        self.press('locDCpass1')
+        self.press('Tab')
+        self.assertSeen('\[x\] User must change password at next logon')
+        self.press('Space')
+        self.assertSeen('\[ \] User must change password at next logon')
+        self.press('Tab')
+        self.assertSeen('\[ \] Unlock the user\'s account')
+        self.press('Space')
+        self.assertSeen('\[x\] Unlock the user\'s account')
+        self.press('Tab')
+        self.press('Enter') # OK
+        self.assertSeen('The password for %s has been changed.' % uname)
+        self.press('Enter') # OK
+        self.assertNotSeen('The password for %s has been changed.' % uname)
+        self.press('Enter') # Action
+        for _ in range(0, 4):
+            self.press('Down')
+        self.press('Enter') # Properties
+        self.assertSeen('%s Properties' % uname)
+        self.press('Right')
+        self.assertSeen('Street:') # Address tab
+        self.press('Right')
+        self.assertSeen('\[ \] User must change password at next logon') # Account Tab
+        for _ in range(0, 2):
+            self.press('BTab')
+        self.press('Enter') # Cancel
+
     def setUp(self):
         super(TestADUC, self).setUp()
         self.conn = Ldap(self.lp, self.creds)
