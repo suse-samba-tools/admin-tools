@@ -133,7 +133,8 @@ class TestADUC(AdminToolsTestCase):
         self.press('Tab')
         self.press('Enter') # Action menu
         self.assertSeen('Delete')
-        self.press('Down')
+        for _ in range(0, 3):
+            self.press('Down')
         self.press('Enter') # Delete
         self.assertSeen("Are you sure you want to delete '%s'?" % ' '.join([fname, ini, lname]))
         self.press('Enter') # Yes
@@ -430,7 +431,8 @@ class TestADUC(AdminToolsTestCase):
         self.press('Tab')
         self.press('Enter') # Action menu
         self.assertSeen('Delete')
-        self.press('Down')
+        for _ in range(0, 3):
+            self.press('Down')
         self.press('Enter') # Delete
         self.assertSeen("Are you sure you want to delete '%s'?" % ' '.join([fname, ini, lname]))
         self.press('Enter') # Yes
