@@ -1,6 +1,9 @@
 all: build
 
-setup:
+/usr/bin/osc:
+	sudo zypper in osc obs-service-appimage obs-service-download_url
+
+setup: /usr/bin/osc
 	if [ ! -e build ] ; then osc co home:dmulder:YaST:AppImage admin-tools -o build; fi
 	pushd build && osc up; popd
 	cp admin-tools.appdata.xml build/
