@@ -50,7 +50,7 @@ def choose_module():
         Table(Id('tools'), Opt('notify'), header, items),
         VSpacing(.3),
         Right(HBox(
-            PushButton(Id('update'), 'Update'),
+            #PushButton(Id('update'), 'Update'),
             PushButton(Id('close'), 'Close'),
         ))
     )
