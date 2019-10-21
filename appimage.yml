@@ -2,6 +2,7 @@ app: admin-tools
 
 build:
   packages:
+    - rpmdevtools
 
 ingredients:
   packages:
@@ -25,6 +26,8 @@ ingredients:
 script:
   # Reinstall perl
   - rpm -r $BUILD_APPDIR -i /usr/src/packages/admin-tools-*/.build.binaries/perl.rpm /usr/src/packages/admin-tools-*/.build.binaries/perl-base.rpm --nodeps
+  # Extract libnsl.so.1 dependency from glibc
+  - rpmpeek /usr/src/packages/admin-tools-*/.build.binaries/glibc.rpm cp ./lib64/libnsl.so.1 $BUILD_APPDIR/lib64/
   # Put y2base in our path
   - rm -rf $BUILD_APPDIR/usr/bin
   - mkdir $BUILD_APPDIR/usr/bin
