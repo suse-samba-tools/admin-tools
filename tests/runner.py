@@ -11,5 +11,5 @@ if __name__ == "__main__":
     suite.addTests(loader.loadTestsFromModule(dns))
     suite.addTests(loader.loadTestsFromModule(adsi))
 
-    runner = unittest.TextTestRunner(verbosity=3)
+    runner = unittest.TextTestRunner(verbosity=3, failfast=True)
     runner.run(suite)

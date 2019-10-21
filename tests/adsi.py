@@ -28,6 +28,7 @@ class TestADUC(AdminToolsTestCase):
         self.press('Tab')
         self.press(self.get_password())
         self.press('Tab')
+        self.press('Tab')
         self.press('Enter') # OK
         self.assertSeen('Default naming context')
 
