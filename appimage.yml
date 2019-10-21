@@ -39,6 +39,8 @@ script:
   # More cleanup
   - rm -rf $BUILD_APPDIR/etc $BUILD_APPDIR/var $BUILD_APPDIR/root $BUILD_APPDIR/sbin $BUILD_APPDIR/run $BUILD_APPDIR/dev $BUILD_APPDIR/usr/src $BUILD_APPDIR/usr/include $BUILD_APPDIR/usr/sbin $BUILD_APPDIR/bin
   - pushd $BUILD_APPDIR/usr/share && ls | grep -v YaST2 | xargs rm -rf && popd
+  # Make sure kerberos tools are in the path
+  - ln -s usr/lib/mit/bin ./
   # Create the desktop file
   - echo "[Desktop Entry]"  >  $BUILD_APPDIR/admin-tools.desktop
   - echo "Name=admin-tools"   >> $BUILD_APPDIR/admin-tools.desktop
