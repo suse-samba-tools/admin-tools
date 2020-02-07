@@ -9,3 +9,15 @@
 [submodule "src/yast-core"]
 	path = src/yast-core
 	url = https://github.com/yast/yast-core.git
+[submodule "src/yast-python-bindings"]
+	path = src/yast-python-bindings
+	url = git@github.com:yast/yast-python-bindings.git
+[submodule "src/yast-ycp-ui-bindings"]
+	path = src/yast-ycp-ui-bindings
+	url = https://github.com/yast/yast-ycp-ui-bindings.git
+[submodule "src/libyui"]
+	path = src/libyui
+	url = https://github.com/libyui/libyui.git
+[submodule "src/libyui-ncurses"]
+	path = src/libyui-ncurses
+	url = https://github.com/libyui/libyui-ncurses.git

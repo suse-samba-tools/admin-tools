@@ -1,4 +1,4 @@
-all: build
+SUBDIRS = src
 
 /usr/bin/osc:
 	sudo zypper in osc obs-service-appimage obs-service-download_url
