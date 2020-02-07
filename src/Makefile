@@ -1,6 +1,6 @@
 
 all:
-	pushd yast-core; make -f Makefile.cvs; make; popd
+	pushd yast-core; if [ ! -f Makefile ] ; then  make -f Makefile.cvs; fi; make; popd
 
 install:
 	pushd yast-core; make install; popd
