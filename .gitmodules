@@ -6,3 +6,6 @@
 	path = tests/depends/yast2-adcommon-python
 	url = https://github.com/yast/yast2-adcommon-python.git
 	branch = master
+[submodule "src/yast-core"]
+	path = src/yast-core
+	url = https://github.com/yast/yast-core.git
