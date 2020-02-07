@@ -21,3 +21,27 @@
 [submodule "src/libyui-ncurses"]
 	path = src/libyui-ncurses
 	url = https://github.com/libyui/libyui-ncurses.git
+[submodule "src/yast2-aduc"]
+	path = src/yast2-aduc
+	url = git@github.com:yast/yast2-aduc.git
+[submodule "src/yast2-adcommon-python"]
+	path = src/yast2-adcommon-python
+	url = git@github.com:yast/yast2-adcommon-python.git
+[submodule "src/yast2-dns-manager"]
+	path = src/yast2-dns-manager
+	url = git@github.com:yast/yast2-dns-manager.git
+[submodule "src/yast2-adsi"]
+	path = src/yast2-adsi
+	url = git@github.com:yast/yast2-adsi.git
+[submodule "src/yast2-gpmc"]
+	path = src/yast2-gpmc
+	url = git@github.com:yast/yast2-gpmc.git
+[submodule "src/yast-ruby-bindings"]
+	path = src/yast-ruby-bindings
+	url = https://github.com/yast/yast-ruby-bindings.git
+[submodule "src/yast-perl-bindings"]
+	path = src/yast-perl-bindings
+	url = https://github.com/yast/yast-perl-bindings.git
+[submodule "src/yast-yast2"]
+	path = src/yast-yast2
+	url = https://github.com/yast/yast-yast2.git
