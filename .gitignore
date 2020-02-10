@@ -20,3 +20,5 @@ Makefile.in
 conf*/
 test-driver
 ylwrap
+src/wfm
+src/ycp-ui
