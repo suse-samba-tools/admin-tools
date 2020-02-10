@@ -39,9 +39,6 @@
 [submodule "src/yast-ruby-bindings"]
 	path = src/yast-ruby-bindings
 	url = https://github.com/yast/yast-ruby-bindings.git
-[submodule "src/yast-perl-bindings"]
-	path = src/yast-perl-bindings
-	url = https://github.com/yast/yast-perl-bindings.git
 [submodule "src/yast-yast2"]
 	path = src/yast-yast2
 	url = https://github.com/yast/yast-yast2.git

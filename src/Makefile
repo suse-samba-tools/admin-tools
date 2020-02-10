@@ -8,7 +8,6 @@ all:
 	pushd yast-ycp-ui-bindings; if [ ! -f Makefile ] ; then make -f Makefile.cvs; fi; make && sudo make install; popd
 	pushd yast-python-bindings; if [ ! -f Makefile ] ; then make -f Makefile.cvs; fi; make && sudo make install; popd
 	pushd yast-ruby-bindings; if [ ! -f Makefile ] ; then cmake -DCMAKE_INSTALL_PREFIX=/usr CMakeLists.txt; fi; make && sudo make install; popd
-	pushd yast-perl-bindings; if [ ! -f Makefile ] ; then make -f Makefile.cvs; fi; make && sudo make install; popd
 	pushd yast-yast2; sudo rake install; popd
 
 install:
