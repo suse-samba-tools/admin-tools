@@ -8,6 +8,7 @@ yast-ycp-ui-bindings:
 	pushd $@; $(MAKE) DEVTOOLSBINDIR=../../yast-core/base/tools/devtools; popd
 
 yast-python-bindings:
+	sed 's/__attribute__ ((deprecated)) //g' $(srcdir)/yast-core/libycp/src/include/ycp/YCPMap.h > yast-python-bindings/src/YCPMap.h
 	pushd $@; $(MAKE); popd
 
 yast-ruby-bindings:
