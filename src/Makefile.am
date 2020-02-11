@@ -13,3 +13,5 @@ yast-python-bindings:
 
 yast-ruby-bindings:
 	pushd $@; cmake -DCMAKE_PREFIX_PATH=../ -DCMAKE_INSTALL_PREFIX=$(prefix) CMakeLists.txt && $(MAKE); popd
+
+CLEANFILES = ycp-ui wfm
