@@ -12,4 +12,4 @@ yast-python-bindings:
 	pushd $@; $(MAKE); popd
 
 yast-ruby-bindings:
-	pushd $@; $(MAKE); popd
+	pushd $@; cmake -DCMAKE_PREFIX_PATH=../ -DCMAKE_INSTALL_PREFIX=$(prefix) CMakeLists.txt && $(MAKE); popd
