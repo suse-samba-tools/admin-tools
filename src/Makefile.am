@@ -12,6 +12,6 @@ yast-python-bindings:
 	pushd $@; $(MAKE); popd
 
 yast-ruby-bindings:
-	pushd $@; cmake -DCMAKE_PREFIX_PATH=../ -DCMAKE_INSTALL_PREFIX=$(prefix) CMakeLists.txt && $(MAKE); popd
+	pushd $@; ln -s $(srcdir)/yast-core/scr/src $(srcdir)/scr; cmake -DCMAKE_CXX_FLAGS="-I../../../yast-core/liby2util-r/src/include -I../../../yast-core/libycp/src/include -I../../../yast-core/libscr/src/include -I../../.." -DCMAKE_PREFIX_PATH=../ -DCMAKE_INSTALL_PREFIX=$(prefix) CMakeLists.txt && $(MAKE) --trace; popd
 
-CLEANFILES = ycp-ui wfm
+CLEANFILES = ycp-ui wfm scr
