@@ -42,3 +42,6 @@
 [submodule "src/yast-yast2"]
 	path = src/yast-yast2
 	url = https://github.com/yast/yast-yast2.git
+[submodule "src/yast-devtools"]
+	path = src/yast-devtools
+	url = https://github.com/yast/yast-devtools.git
