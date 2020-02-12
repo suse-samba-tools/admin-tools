@@ -23,6 +23,7 @@ install-exec-hook:
 	pushd yast-ycp-ui-bindings; $(MAKE) install; popd
 	pushd yast-python-bindings; $(MAKE) install; popd
 	pushd yast-ruby-bindings; $(MAKE) install; popd
+	pushd yast-rake; rake install; popd
 	pushd yast-yast2; rake install; popd
 	pushd yast2-adcommon-python; ./setup.py install; popd
 	pushd yast2-adsi; rake install; popd
@@ -30,4 +31,4 @@ install-exec-hook:
 	pushd yast2-dns-manager; rake install; popd
 	pushd yast2-gpmc; rake install; popd
 
-CLEANFILES = ycp-ui wfm scr
+CLEANFILES = ycp-ui wfm scr yui
