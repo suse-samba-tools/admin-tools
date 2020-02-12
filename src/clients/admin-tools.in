@@ -1,0 +1,3 @@
+#!/bin/sh
+
+@Y2BASEDIR@/y2base admin-tools ncurses

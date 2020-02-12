@@ -1,4 +1,4 @@
-SUBDIRS = yast-core libyui libyui-ncurses
+SUBDIRS = yast-core libyui libyui-ncurses clients
 
 all: yast-ycp-ui-bindings yast-python-bindings yast-ruby-bindings
 
