@@ -7,9 +7,13 @@ AX_SWIG_PYTHON
 AC_PROG_CXX
 AX_WITH_CURSES
 AC_CONFIG_FILES([src/Makefile src/clients/Makefile])
-AC_CONFIG_COMMANDS([yast-core], [pushd src/yast-core; PKG_CONFIG_PATH=$PKG_CONFIG_PATH:.. PATH=$PATH:..:../yast-devtools/build-tools/doxygen make -f Makefile.cvs; popd])
-AC_CONFIG_COMMANDS([libyui], [pushd src/libyui; make -f Makefile.cvs; cmake CMakeLists.txt; popd])
-AC_CONFIG_COMMANDS([libyui-ncurses], [pushd src/libyui-ncurses; make -f Makefile.cvs clean && ../bootstrap.sh && cmake -DCMAKE_MODULE_PATH=../libyui/buildtools -DCMAKE_BUILD_TYPE=RELEASE && cmake CMakeLists.txt;  popd])
-AC_CONFIG_COMMANDS([yast-ycp-ui-bindings], [pushd src; ln -s libyui/src yui; popd; pushd src/yast-ycp-ui-bindings; PKG_CONFIG_PATH=$PKG_CONFIG_PATH:.. PATH=$PATH:..:../yast-devtools/build-tools/doxygen CPPFLAGS="-I.. -I../.. -I../../yast-core/libscr/src/include -I../../yast-core/liby2/src/include -I../../yast-core/liby2util-r/src/include -I../../yast-core/libycp/src/include" LDFLAGS="-L../../yast-core/libscr/src -L../../yast-core/liby2/src -L../../yast-core/liby2util-r/src -L../../yast-core/libycp/src" make -f Makefile.cvs; popd])
-AC_CONFIG_COMMANDS([yast-python-bindings], [pushd src; ln -s yast-ycp-ui-bindings/src ycp-ui; ln -s yast-core/wfm/src wfm; popd; pushd src/yast-python-bindings; PKG_CONFIG_PATH=$PKG_CONFIG_PATH:.. PATH=$PATH:..:../yast-devtools/build-tools/doxygen make -f Makefile.cvs all && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:.. PATH=$PATH:..:../yast-devtools/build-tools/doxygen CPPFLAGS="-I../.. -I../../yast-core/libscr/src/include -I../../yast-core/liby2/src/include -I../../yast-core/liby2util-r/src/include -I../../yast-core/libycp/src/include" LDFLAGS="-L../../ycp-ui -L../../wfm -L../../yast-core/libscr/src -L../../yast-core/liby2/src -L../../yast-core/liby2util-r/src -L../../yast-core/libycp/src" ./configure --enable-python3; popd])
+AC_DEFINE(PREFIX, $(prefix))
+AC_DEFINE(LIBDIR, $(libdir))
+export PATH=$PATH:..:../yast-devtools/build-tools/doxygen
+ln -fs ../configure src/libyui/configure
+ln -fs ../configure src/libyui-ncurses/configure
+ln -fs ../libyui/buildtools/CMakeLists.common src/libyui-ncurses/CMakeLists.txt
+AX_SUBDIRS_CONFIGURE([src/yast-core, src/libyui], [PKG_CONFIG_PATH=..])
+AX_SUBDIRS_CONFIGURE([src/libyui-ncurses], [-DCMAKE_MODULE_PATH=../libyui/buildtools])
+AX_SUBDIRS_CONFIGURE([src/yast-ycp-ui-bindings, src/yast-python-bindings], [PKG_CONFIG_PATH=$PKG_CONFIG_PATH:.., CPPFLAGS="-I..\ -I../..\ -I../../yast-core/libscr/src/include\ -I../../yast-core/liby2/src/include\ -I../../yast-core/liby2util-r/src/include\ -I../../yast-core/libycp/src/include", LDFLAGS="-L../../ycp-ui\ -L../../wfm\ -L../../yast-core/libscr/src\ -L../../yast-core/liby2/src\ -L../../yast-core/liby2util-r/src\ -L../../yast-core/libycp/src"])
 AC_OUTPUT
