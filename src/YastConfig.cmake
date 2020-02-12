@@ -10,7 +10,7 @@
 # YAST_YCP_LIBRARY
 #
 
-include(YastCommon)
+include(../yast-devtools/build-tools/cmake/modules/YastCommon.cmake)
 
 if(YAST_INCLUDE_DIR AND YAST_LIBRARY AND YAST_YCP_LIBRARY)
   # Already in cache, be silent
