@@ -11,8 +11,8 @@ ln -fs ../configure src/libyui-ncurses/configure
 ln -fs ../libyui/buildtools/CMakeLists.common src/libyui-ncurses/CMakeLists.txt
 AX_SUBDIRS_CONFIGURE([src/yast-core, src/libyui], [PKG_CONFIG_PATH=..])
 AX_SUBDIRS_CONFIGURE([src/libyui-ncurses], [-DCMAKE_MODULE_PATH=../libyui/buildtools])
-pushd src/yast-ycp-ui-bindings; make -f Makefile.cvs all; popd
+pushd src/yast-ycp-ui-bindings; PKG_CONFIG_PATH=.. make -f Makefile.cvs all; popd
 AX_SUBDIRS_CONFIGURE([src/yast-ycp-ui-bindings], [PKG_CONFIG_PATH=$PKG_CONFIG_PATH:.., CPPFLAGS="-I..\ -I../..\ -I../../yast-core/libscr/src/include\ -I../../yast-core/liby2/src/include\ -I../../yast-core/liby2util-r/src/include\ -I../../yast-core/libycp/src/include", LDFLAGS="-L../../ycp-ui\ -L../../wfm\ -L../../yast-core/libscr/src\ -L../../yast-core/liby2/src\ -L../../yast-core/liby2util-r/src\ -L../../yast-core/libycp/src"])
-pushd src/yast-python-bindings; make -f Makefile.cvs all; popd
+pushd src/yast-python-bindings; PKG_CONFIG_PATH=.. make -f Makefile.cvs all; popd
 AX_SUBDIRS_CONFIGURE([src/yast-python-bindings], [PKG_CONFIG_PATH=$PKG_CONFIG_PATH:.., CPPFLAGS="-I..\ -I../..\ -I../../yast-core/libscr/src/include\ -I../../yast-core/liby2/src/include\ -I../../yast-core/liby2util-r/src/include\ -I../../yast-core/libycp/src/include", LDFLAGS="-L../../ycp-ui\ -L../../wfm\ -L../../yast-core/libscr/src\ -L../../yast-core/liby2/src\ -L../../yast-core/liby2util-r/src\ -L../../yast-core/libycp/src", --enable-python3])
 AC_OUTPUT
