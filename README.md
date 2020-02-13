@@ -8,3 +8,9 @@ make automake autoconf gcc gcc-c++ dejagnu flex libboost_headers1_66_0-devel jem
 
 Redhat build dependencies:
 make gcc autoconf automake gcc-c++ dejagnu flex autoconf-archive python3-devel swig  ncurses-devel ruby-devel cmake libtool boost-devel boost-test doxygen bison perl-devel perl-Pod-Html jemalloc jemalloc-devel rake
+
+Run dependencies:
+python3-samba
+
+Ruby gems:
+packaging yast-rake fast_gettext
