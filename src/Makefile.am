@@ -29,7 +29,7 @@ install-exec-hook:
 	pushd yast-ruby-bindings; $(MAKE) install; popd
 	pushd yast-rake; rake install; popd
 	pushd yast-yast2; rake install; popd
-	pushd yast2-adcommon-python; ./setup.py install; popd
+	pushd yast2-adcommon-python; ./setup.py install --prefix=$(prefix); popd
 	pushd yast2-adsi; rake install; popd
 	pushd yast2-aduc; rake install; popd
 	pushd yast2-dns-manager; rake install; popd
