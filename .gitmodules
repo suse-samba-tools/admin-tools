@@ -6,3 +6,59 @@
 	path = tests/depends/yast2-adcommon-python
 	url = https://github.com/yast/yast2-adcommon-python.git
 	branch = master
+[submodule "src/yast-core"]
+	path = src/yast-core
+	url = https://github.com/yast/yast-core.git
+	branch = master
+[submodule "src/yast-python-bindings"]
+	path = src/yast-python-bindings
+	url = https://github.com/yast/yast-python-bindings.git
+	branch = master
+[submodule "src/yast-ycp-ui-bindings"]
+	path = src/yast-ycp-ui-bindings
+	url = https://github.com/yast/yast-ycp-ui-bindings.git
+	branch = master
+[submodule "src/libyui"]
+	path = src/libyui
+	url = https://github.com/libyui/libyui.git
+	branch = master
+[submodule "src/libyui-ncurses"]
+	path = src/libyui-ncurses
+	url = https://github.com/libyui/libyui-ncurses.git
+	branch = master
+[submodule "src/yast2-aduc"]
+	path = src/yast2-aduc
+	url = https://github.com/yast/yast2-aduc.git
+	branch = master
+[submodule "src/yast2-adcommon-python"]
+	path = src/yast2-adcommon-python
+	url = https://github.com/yast/yast2-adcommon-python.git
+	branch = master
+[submodule "src/yast2-dns-manager"]
+	path = src/yast2-dns-manager
+	url = https://github.com/yast/yast2-dns-manager.git
+	branch = master
+[submodule "src/yast2-adsi"]
+	path = src/yast2-adsi
+	url = https://github.com/yast/yast2-adsi.git
+	branch = master
+[submodule "src/yast2-gpmc"]
+	path = src/yast2-gpmc
+	url = https://github.com/yast/yast2-gpmc.git
+	branch = master
+[submodule "src/yast-ruby-bindings"]
+	path = src/yast-ruby-bindings
+	url = https://github.com/yast/yast-ruby-bindings.git
+	branch = master
+[submodule "src/yast-yast2"]
+	path = src/yast-yast2
+	url = https://github.com/yast/yast-yast2.git
+	branch = master
+[submodule "src/yast-devtools"]
+	path = src/yast-devtools
+	url = https://github.com/yast/yast-devtools.git
+	branch = master
+[submodule "src/yast-rake"]
+	path = src/yast-rake
+	url = https://github.com/yast/yast-rake.git
+	branch = master

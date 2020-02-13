@@ -1,0 +1,44 @@
+#!/bin/sh
+# $Id$
+#
+# y2tool - Start a YaST2 tool from the YaST2 tool path
+#
+# Author: Stefan Hundhammer <sh@suse.de>
+# (c) SuSE GmbH 2001
+#
+
+self=`basename $0`
+
+y2toolpath=`dirname $0`/yast-devtools/build-tools/scripts
+
+cmd=$1
+shift
+
+if [ "$cmd" = "--help" -o "$cmd" = "-h" ]; then
+    cd $y2toolpath
+    ls
+    exit 0
+fi
+
+if [ -z $cmd ]; then
+    echo ""							>&2
+    echo "Usage: ${self} [--prefix <prefix>] [--help] <command> [<arg> ...]">&2
+    echo ""							>&2
+    echo "Starts a YaST2 tool from '$y2toolpath'."		>&2
+    echo ""							>&2
+    exit 1
+fi
+
+
+if [ -x $y2toolpath/$cmd ]; then
+    if [ $cmd = "y2automake" ] ; then
+        $y2toolpath/$cmd "$@" --bootstrap `dirname $0`/yast-devtools/build-tools
+    else
+        $y2toolpath/$cmd "$@"
+    fi
+elif [ $cmd = "get-lib" ] ; then
+    `dirname $0`/yast-devtools/ytools/y2tool/get-lib "$@"
+else
+    echo "${self}: Can't find \"$cmd\" in $y2toolpath"	>&2
+    exit 1
+fi

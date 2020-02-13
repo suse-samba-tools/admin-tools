@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+# if your pkgconfig does not see this variable, remove the obsolete
+# version of this file at /usr/lib*/pkgconfig/yast2-devtools.pc
+datadir=${prefix}/share
+includedir=${prefix}/include/YaST2
+yast2dir=${prefix}/share/YaST2
+ybindir=${prefix}/lib/YaST2/bin
+
+Name: yast2-devtools
+Version: 4.2.0
+Description: YaST2 package "yast2-devtools"
