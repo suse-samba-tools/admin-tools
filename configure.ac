@@ -10,6 +10,7 @@ ln -fs ./buildtools/CMakeLists.common src/libyui/CMakeLists.txt
 ln -fs ../configure src/libyui-ncurses/configure
 ln -fs ../libyui/buildtools/CMakeLists.common src/libyui-ncurses/CMakeLists.txt
 pushd src/yast-core; PKG_CONFIG_PATH=.. make -f Makefile.cvs all; popd
+sed -i 's;SET( BUILDTOOLS_DIR .* );SET( BUILDTOOLS_DIR "../libyui/buildtools" );g' src/libyui/buildtools/CMakeLists.common
 AX_SUBDIRS_CONFIGURE([src/yast-core, src/libyui], [PKG_CONFIG_PATH=..])
 AX_SUBDIRS_CONFIGURE([src/libyui-ncurses], [-DCMAKE_MODULE_PATH=../libyui/buildtools])
 pushd src/yast-ycp-ui-bindings; PKG_CONFIG_PATH=.. make -f Makefile.cvs all; popd
