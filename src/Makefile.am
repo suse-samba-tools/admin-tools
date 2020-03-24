@@ -7,7 +7,7 @@ all: yast-ycp-ui-bindings yast-python-bindings yast-ruby-bindings
 yast-ycp-ui-bindings:
 	ln -fs $(srcdir)/libyui/src yui
 	ln -fs $(srcdir)/yast-core/wfm/src wfm
-	pushd $@; $(MAKE) DEVTOOLSBINDIR=../../yast-core/base/tools/devtools; popd
+	pushd $@; $(MAKE) DEVTOOLSBINDIR=$(abs_top_srcdir)/src/yast-core/base/tools/devtools; popd
 
 yast-python-bindings:
 	ln -fs $(srcdir)/yast-ycp-ui-bindings/src ycp-ui
@@ -16,7 +16,7 @@ yast-python-bindings:
 
 yast-ruby-bindings:
 	ln -fs $(srcdir)/yast-core/scr/src $(srcdir)/scr
-	pushd $@; cmake -DCMAKE_CXX_FLAGS="-I../../../yast-core/liby2util-r/src/include -I../../../yast-core/libycp/src/include -I../../../yast-core/libscr/src/include -I../../.." -DCMAKE_PREFIX_PATH=../ -DCMAKE_INSTALL_PREFIX=$(prefix) CMakeLists.txt && $(MAKE) --trace; popd
+	pushd $@; cmake -DCMAKE_CXX_FLAGS="-I$(abs_top_srcdir)/src/yast-core/liby2util-r/src/include -I$(abs_top_srcdir)/src/yast-core/libycp/src/include -I$(abs_top_srcdir)/src/yast-core/libscr/src/include -I$(abs_top_srcdir)/src" -DCMAKE_PREFIX_PATH=$(abs_top_srcdir)/src/ -DCMAKE_INSTALL_PREFIX=$(prefix) CMakeLists.txt && $(MAKE) --trace; popd
 
 clean-local:
 	pushd yast-ycp-ui-bindings; $(MAKE) clean; popd
