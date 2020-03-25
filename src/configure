@@ -237,9 +237,9 @@ while [ $# != 0 ]; do
         "--mandir")
             CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_INSTALL_MANDIR=$(quote "$2")"; shift;;
         "--docdir="*)
-            CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_INSTALL_DOCDIR=$(quote "${1#*=}")";;
+            CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_INSTALL_DOCDIR=$(quote "${1#*=}") -DDOC_DIR=$(quote "${1#*=}")";;
         "--docdir")
-            CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_INSTALL_DOCDIR=$(quote "$2")"; shift;;
+            CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_INSTALL_DOCDIR=$(quote "$2") -DDOC_DIR=$(quote "$2")"; shift;;
         "-DCMAKE_"*)
             CMAKE_ARGS="$CMAKE_ARGS $1"; shift;;
 
