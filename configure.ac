@@ -15,6 +15,7 @@ ln -fs ../libyui/buildtools/CMakeLists.common src/libyui-ncurses/CMakeLists.txt
 ln -fs libyui/src src/yui
 ln -fs yast-core/wfm/src src/wfm
 ln -fs yast-ycp-ui-bindings/src src/ycp-ui
+ln -fs yast-core/scr/src src/scr
 pushd src/yast-core; PKG_CONFIG_PATH=${ac_abs_confdir}/src make -f Makefile.cvs all; popd
 sed -i 's;SET( BUILDTOOLS_DIR .* );SET( BUILDTOOLS_DIR "'${ac_abs_confdir}'/src/libyui/buildtools" );g' src/libyui/buildtools/CMakeLists.common
 AX_SUBDIRS_CONFIGURE([src/yast-core, src/libyui], [PKG_CONFIG_PATH=${ac_abs_confdir}/src])
