@@ -3,7 +3,6 @@ AM_MAKEFLAGS = DEVTOOLSBINDIR=$(abs_top_srcdir)/src/yast-core/base/tools/devtool
 SUBDIRS = yast-core libyui libyui-ncurses yast-ycp-ui-bindings yast-python-bindings yast-ruby-bindings clients
 
 install-exec-hook:
-	pushd yast-rake; rake install && popd
 	pushd yast-yast2; rake install && popd
 	pushd yast2-adcommon-python; ./setup.py install --prefix=$(prefix) && popd
 	pushd yast2-adsi; rake install && popd

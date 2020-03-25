@@ -58,7 +58,3 @@
 	path = src/yast-devtools
 	url = https://github.com/yast/yast-devtools.git
 	branch = master
-[submodule "src/yast-rake"]
-	path = src/yast-rake
-	url = https://github.com/yast/yast-rake.git
-	branch = master
