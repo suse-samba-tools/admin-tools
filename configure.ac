@@ -1,7 +1,7 @@
 AC_INIT([admin-tools], [1.0])
 AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE
-sed 's;@TOP_SRC_DIR@;'${ac_abs_confdir}';g' ${ac_abs_confdir}/src/yast-ruby-bindings.make.in > ${ac_abs_confdir}/src/yast-ruby-bindings/Makefile.am
+sed 's;@TOP_SRC_DIR@;'${ac_abs_confdir}';g' ${ac_abs_confdir}/src/yast-ruby-bindings.make.in > ${ac_abs_confdir}/src/yast-ruby-bindings/Makefile.am && autoreconf -if
 AC_CONFIG_FILES([src/Makefile src/clients/Makefile src/yast-ruby-bindings/Makefile])
 AC_DEFINE(PREFIX, $(prefix))
 AC_DEFINE(LIBDIR, $(libdir))
