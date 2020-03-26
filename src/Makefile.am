@@ -4,7 +4,7 @@ SUBDIRS = yast-core libyui libyui-ncurses yast-ycp-ui-bindings yast-python-bindi
 
 install-exec-hook:
 	pushd yast-yast2; rake install && popd
-	pushd yast2-adcommon-python; $(PYTHON) ./setup.py install --no-compile --prefix=$(DESTDIR)$(prefix) --single-version-externally-managed --root=$(DESTDIR) --verbose && popd
+	pushd yast2-adcommon-python; $(PYTHON) ./setup.py install --no-compile --prefix=$(prefix) --single-version-externally-managed --root=$(DESTDIR) --verbose && popd
 	pushd yast2-adsi; rake install && popd
 	pushd yast2-aduc; rake install && popd
 	pushd yast2-dns-manager; rake install && popd
