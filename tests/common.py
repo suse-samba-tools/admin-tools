@@ -86,7 +86,7 @@ class AdminToolsTestCase(unittest.TestCase):
             kinit_for_gssapi(self.creds, None)
         self.kinit()
         self.lp.set('realm', self.creds.get_domain())
-        self.at = hecate.Runner("../admin-tools-x86_64.AppImage", width=120, height=50)
+        self.at = hecate.Runner("admin-tools", width=120, height=50)
 
     def tearDown(self):
         self.at.shutdown()

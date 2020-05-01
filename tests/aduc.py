@@ -10,9 +10,9 @@ class TestADUC(AdminToolsTestCase):
         self.press('Enter')
         self.assertSeen('To continue, type an Active Directory administrator password')
         for _ in range(0, 3):
-            self.press('Tab')
+            self.press('BTab')
         self.press('Enter')
-        self.assertSeen('Active Directory Users and Computers')
+        self.assertSeen('Active Directory Users and Computers', timeout=30)
         for _ in range(0, 50): # Select Users
             self.press('Down')
         # Make sure we see the Administrator in the Users list
@@ -604,3 +604,6 @@ class TestADUC(AdminToolsTestCase):
             except Exception:
                 pass # Ignore deletion failures
         super(TestADUC, self).tearDown()
+
+if __name__ == "__main__":
+    unittest.main()
