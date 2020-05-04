@@ -494,19 +494,15 @@ class TestADUC(AdminToolsTestCase):
         self.press('Enter') # Check Name
         self.press('Tab')
         self.press('Enter') # OK
-        for _ in range(0, 4):
+        sleep(2)
+        for _ in range(0, 6):
             self.press('Tab')
-        self.press('Enter') # OK
+        self.press('Enter') # Apply
         result = self.conn.search(None, SCOPE_SUBTREE, '(samaccountname=%s)' % uname, ['memberOf'])[0]
         self.assertIn('memberOf', result)
         self.assertIn(gname, str(result['memberOf']))
-        for _ in range(0, 3):
-            self.press('Tab')
-        self.press('Enter') # Group Properties
-        self.assertSeen('%s Properties' % gname)
-        self.press('Right')
-        self.assertSeen('Members:')
-        for _ in range(0, 3):
+        sleep(2)
+        for _ in range(0, 4):
             self.press('Tab')
         self.press('Enter') # Remove
         for _ in range(0, 3):
