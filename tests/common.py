@@ -96,4 +96,5 @@ class AdminToolsTestCase(unittest.TestCase):
             self.config.set('creds', 'username', self.creds.get_username())
             self.config.set('creds', 'domain', self.creds.get_domain())
             self.config.set('creds', 'password', self.creds.get_password())
-            self.config.write(open('.tcreds', 'w'))
+            with open('.tcreds', 'w') as w:
+                self.config.write(w)
