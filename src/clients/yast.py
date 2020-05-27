@@ -1,20 +1,30 @@
 import yui
 from abc import ABC, abstractmethod
 
+class ycpbuiltins(object):
+    @staticmethod
+    def y2error(msg):
+        print(msg)
+
 class UI(object):
     f = yui.YUI.widgetFactory()
     ds = []
 
     @staticmethod
     def OpenDialog(*args):
-        self.optis = []
-        self.widget = None
+        opts = []
+        widget = None
         for arg in args:
             if type(arg) == Opt:
-                self.opts.extend(arg.opts())
+                opts.extend(arg.opts())
             elif issubclass(type(arg), Widget):
-                self.widget = arg
-        UI.ds.append(UI.f.createMainDialog())
+                widget = arg
+        if 'mainDialog' in opts:
+            UI.ds.append(UI.f.createMainDialog())
+        else:
+            UI.ds.append(UI.f.createPopupDialog())
+        if widget:
+            widget.__create__(UI.ds[-1])
 
     @staticmethod
     def WaitForEvent():
@@ -90,3 +100,31 @@ class Table(Widget):
             raise ValueError(str(self.args))
         for i in self.args[-1]:
             i.__create__(t)
+
+class VSpacing(Widget):
+    def __init__(self, *args):
+        super(VSpacing, self).__init__(*args)
+
+    def __create__(self, parent):
+        UI.f.createVSpacing(parent)
+
+class Right(Widget):
+    def __init__(self, *args):
+        super(Right, self).__init__(*args)
+
+    def __create__(self, parent):
+        UI.f.createRight(parent)
+
+class HBox(Widget):
+    def __init__(self, *args):
+        super(HBox, self).__init__(*args)
+
+    def __create__(self, parent):
+        UI.f.createHBox(parent)
+
+class PushButton(Widget):
+    def __init__(self, *args):
+        super(PushButton, self).__init__(*args)
+
+    def __create__(self, parent):
+        UI.f.createPushButton(parent)
