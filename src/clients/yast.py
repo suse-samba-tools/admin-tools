@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class ycpbuiltins(object):
     @staticmethod
     def y2error(msg):
-        print(msg)
+        yui.YUILog_error(msg)
 
 class UI(object):
     f = yui.YUI.widgetFactory()
