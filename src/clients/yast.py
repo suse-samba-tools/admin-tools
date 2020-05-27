@@ -1,10 +1,114 @@
 import yui
 from abc import ABC, abstractmethod
 
+def import_module(name):
+    pass
+
 class ycpbuiltins(object):
     @staticmethod
     def y2error(msg):
         yui.YUILog_error(msg)
+
+class Code(object):
+    pass
+
+class Symbol(object):
+    def __init__(self, label):
+        self.symbol = label
+
+    def __str__(self):
+        return self.symbol
+
+class Sequencer:
+    def __init__(self, *cli_args):
+        self.cli_args = cli_args
+
+    def run(self, funcs):
+        Wizard.CreateDialog()
+
+        for func in funcs:
+            ret = func(*self.cli_args)
+            if type(ret) is tuple:
+                data, ret = ret
+                self.cli_args = (data,) + self.cli_args
+            if str(ret) == 'next':
+                continue
+            elif str(ret) == 'abort':
+                break
+
+        UI.CloseDialog()
+
+class Wizard(object):
+    @staticmethod
+    def GenericDialog(button_box):
+        return VBox(
+            ReplacePoint(Empty(), Id('topmenu')),
+            HBox(
+                HSpacing(1),
+                VBox(
+                    VSpacing(0.2),
+                    HBox(
+                        Heading("Initializing ...", Id('title'), Opt('hstretch')),
+                        HStretch(),
+                        ReplacePoint(Empty(), Id('relnotes_rp'))
+                    ),
+                    VWeight(
+                        1,
+                        HVCenter(ReplacePoint(Empty(), Id('contents')), Opt('hvstretch'))
+                    )
+                ),
+                HSpacing(1)
+            ),
+            ReplacePoint(button_box, Id('rep_button_box')),
+            VSpacing(0.2),
+            Id('WizardDialog')
+        )
+
+    @staticmethod
+    def BackAbortNextButtonBox():
+        return HBox(
+            HWeight(1, ReplacePoint(
+                PushButton('Help', Id('help'), Opt('key_F1', 'helpButton')),
+            Id('rep_help'))),
+            HStretch(),
+            HWeight(1, ReplacePoint(
+                PushButton('Back', Id('back'), Opt('key_F8')),
+            Id('rep_back'))),
+            HStretch(),
+            ReplacePoint(
+                PushButton('Abort', Id('abort'), Opt('key_F9')),
+            Id('rep_abort')),
+            HStretch(),
+            HWeight(1, ReplacePoint(
+                PushButton('Next', Id('next'), Opt('key_F10', 'default')),
+            Id('rep_next'))),
+        )
+
+    @staticmethod
+    def CreateDialog():
+        content = Wizard.GenericDialog(Wizard.BackAbortNextButtonBox())
+        args = List()
+        opts = List()
+        opts.append(Symbol('wizardDialog'))
+
+        UI.OpenDialog(Term('opt', opts.base()), content)
+        UI.SetFocus(String('next'))
+
+    @staticmethod
+    def SetContentsButtons(title, contents, help_txt, back_txt, next_txt):
+        UI.SetApplicationTitle(String(title))
+        UI.ChangeWidget(Symbol('title'), Symbol('Value'), String(title))
+        UI.ReplaceWidget(Symbol('contents'), contents)
+        UI.ReplaceWidget(Symbol('rep_back'), PushButton(back_txt, Id('back'), Opt('key_F8')))
+        UI.ReplaceWidget(Symbol('rep_next'), PushButton(next_txt, Id('next'), Opt('key_F10', 'default')))
+
+    @staticmethod
+    def DisableBackButton():
+        pass
+
+    @staticmethod
+    def DisableNextButton():
+        pass
 
 class UI(object):
     f = yui.YUI.widgetFactory()
@@ -40,6 +144,10 @@ class UI(object):
     @staticmethod
     def SetApplicationTitle(title):
         pass
+
+    @staticmethod
+    def HasSpecialWidget(name):
+        return True
 
 class Id(object):
     def __init__(self, label):
