@@ -42,65 +42,61 @@ class Wizard(object):
     @staticmethod
     def GenericDialog(button_box):
         return VBox(
-            ReplacePoint(Empty(), Id('topmenu')),
+            Id('WizardDialog'),
+            ReplacePoint(Id('topmenu'), Empty()),
             HBox(
                 HSpacing(1),
                 VBox(
                     VSpacing(0.2),
                     HBox(
-                        Heading("Initializing ...", Id('title'), Opt('hstretch')),
+                        Heading(Id('title'), Opt('hstretch'), "Initializing ..."),
                         HStretch(),
-                        ReplacePoint(Empty(), Id('relnotes_rp'))
+                        ReplacePoint(Id('relnotes_rp'), Empty())
                     ),
                     VWeight(
                         1,
-                        HVCenter(ReplacePoint(Empty(), Id('contents')), Opt('hvstretch'))
+                        HVCenter(Opt('hvstretch'), ReplacePoint(Id('contents'), Empty()))
                     )
                 ),
                 HSpacing(1)
             ),
-            ReplacePoint(button_box, Id('rep_button_box')),
-            VSpacing(0.2),
-            Id('WizardDialog')
+            ReplacePoint(Id('rep_button_box'), button_box),
+            VSpacing(0.2)
         )
 
     @staticmethod
     def BackAbortNextButtonBox():
         return HBox(
-            HWeight(1, ReplacePoint(
-                PushButton('Help', Id('help'), Opt('key_F1', 'helpButton')),
-            Id('rep_help'))),
+            HWeight(1, ReplacePoint(Id('rep_help'),
+                PushButton(Id('help'), Opt('key_F1', 'helpButton'), 'Help')
+            )),
             HStretch(),
-            HWeight(1, ReplacePoint(
-                PushButton('Back', Id('back'), Opt('key_F8')),
-            Id('rep_back'))),
+            HWeight(1, ReplacePoint(Id('rep_back'),
+                PushButton(Id('back'), Opt('key_F8'), 'Back')
+            )),
             HStretch(),
-            ReplacePoint(
-                PushButton('Abort', Id('abort'), Opt('key_F9')),
-            Id('rep_abort')),
+            ReplacePoint(Id('rep_abort'),
+                PushButton(Id('abort'), Opt('key_F9'), 'Abort')
+            ),
             HStretch(),
-            HWeight(1, ReplacePoint(
-                PushButton('Next', Id('next'), Opt('key_F10', 'default')),
-            Id('rep_next'))),
+            HWeight(1, ReplacePoint(Id('rep_next'),
+                PushButton(Id('next'), Opt('key_F10', 'default'), 'Next')
+            )),
         )
 
     @staticmethod
     def CreateDialog():
         content = Wizard.GenericDialog(Wizard.BackAbortNextButtonBox())
-        args = List()
-        opts = List()
-        opts.append(Symbol('wizardDialog'))
-
-        UI.OpenDialog(Term('opt', opts.base()), content)
-        UI.SetFocus(String('next'))
+        UI.OpenDialog(content, Opt('wizardDialog'))
+        UI.SetFocus('next')
 
     @staticmethod
     def SetContentsButtons(title, contents, help_txt, back_txt, next_txt):
-        UI.SetApplicationTitle(String(title))
-        UI.ChangeWidget(Symbol('title'), Symbol('Value'), String(title))
-        UI.ReplaceWidget(Symbol('contents'), contents)
-        UI.ReplaceWidget(Symbol('rep_back'), PushButton(back_txt, Id('back'), Opt('key_F8')))
-        UI.ReplaceWidget(Symbol('rep_next'), PushButton(next_txt, Id('next'), Opt('key_F10', 'default')))
+        UI.SetApplicationTitle(title)
+        UI.ChangeWidget('title', 'Value', String(title))
+        UI.ReplaceWidget('contents', contents)
+        UI.ReplaceWidget('rep_back', PushButton(Id('back'), Opt('key_F8'), back_txt))
+        UI.ReplaceWidget('rep_next', PushButton(Id('next'), Opt('key_F10', 'default'), next_txt))
 
     @staticmethod
     def DisableBackButton():
@@ -108,6 +104,14 @@ class Wizard(object):
 
     @staticmethod
     def DisableNextButton():
+        pass
+
+    @staticmethod
+    def EnableNextButton():
+        pass
+
+    @staticmethod
+    def DisableAbortButton():
         pass
 
 class UI(object):
