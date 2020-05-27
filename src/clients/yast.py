@@ -95,11 +95,11 @@ class Table(Widget):
         super(Table, self).__init__(*args)
 
     def __create__(self, parent):
-        t = UI.f.createTable(parent)
-        if len(self.args) != 1 or type(self.args[-1]) != list:
+        t = UI.f.createTable(parent, self.args[0])
+        if len(self.args) != 2 or type(self.args[-1]) != list:
             raise ValueError(str(self.args))
         for i in self.args[-1]:
-            i.__create__(t)
+            t.addItem(i)
 
 class VSpacing(Widget):
     def __init__(self, *args):
