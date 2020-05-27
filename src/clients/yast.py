@@ -28,7 +28,14 @@ class UI(object):
 
     @staticmethod
     def WaitForEvent():
-        return UI.ds[-1].waitForEvent()
+        event = UI.ds[-1].waitForEvent()
+        ret = {}
+        if event.widget():
+            ret['ID'] = event.widget().id().toString()
+        if event.eventType() == yui.YEvent.WidgetEvent:
+            event.__class__ = yui.YWidgetEvent
+            ret['EventReason'] = event.toString(event.reason())
+        return ret
 
     @staticmethod
     def SetApplicationTitle(title):
@@ -37,6 +44,9 @@ class UI(object):
 class Id(object):
     def __init__(self, label):
         self.id = label
+
+    def __str__(self):
+        return self.id
 
 class Opt(object):
     def __init__(self, *args):
@@ -87,6 +97,8 @@ class VBox(Widget):
 
     def __create__(self, parent):
         v = UI.f.createVBox(parent)
+        if self.id:
+            v.setId(yui.YStringWidgetID(str(self.id)))
         for w in self.widgets:
             w.__create__(v)
 
@@ -96,6 +108,8 @@ class Table(Widget):
 
     def __create__(self, parent):
         t = UI.f.createTable(parent, self.args[0])
+        if self.id:
+            t.setId(yui.YStringWidgetID(str(self.id)))
         if len(self.args) != 2 or type(self.args[-1]) != list:
             raise ValueError(str(self.args))
         for i in self.args[-1]:
@@ -106,25 +120,39 @@ class VSpacing(Widget):
         super(VSpacing, self).__init__(*args)
 
     def __create__(self, parent):
-        UI.f.createVSpacing(parent)
+        v = UI.f.createVSpacing(parent)
+        if self.id:
+            v.setId(yui.YStringWidgetID(str(self.id)))
 
 class Right(Widget):
     def __init__(self, *args):
         super(Right, self).__init__(*args)
 
     def __create__(self, parent):
-        UI.f.createRight(parent)
+        r = UI.f.createRight(parent)
+        if self.id:
+            r.setId(yui.YStringWidgetID(str(self.id)))
+        for s in self.widgets:
+            s.__create__(r)
 
 class HBox(Widget):
     def __init__(self, *args):
         super(HBox, self).__init__(*args)
 
     def __create__(self, parent):
-        UI.f.createHBox(parent)
+        h = UI.f.createHBox(parent)
+        if self.id:
+            h.setId(yui.YStringWidgetID(str(self.id)))
+        for s in self.widgets:
+            s.__create__(h)
 
 class PushButton(Widget):
     def __init__(self, *args):
         super(PushButton, self).__init__(*args)
 
     def __create__(self, parent):
-        UI.f.createPushButton(parent)
+        if len(self.args) != 1 or type(self.args[-1]) != str:
+            raise ValueError(str(self.args))
+        b = UI.f.createPushButton(parent, self.args[-1])
+        if self.id:
+            b.setId(yui.YStringWidgetID(str(self.id)))
