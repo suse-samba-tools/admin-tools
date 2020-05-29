@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ac_abs_confdir=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 for i in NEWS README AUTHORS ChangeLog; do
