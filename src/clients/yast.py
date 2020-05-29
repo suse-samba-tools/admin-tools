@@ -209,7 +209,19 @@ class UI(object):
 
     @staticmethod
     def QueryWidget(wid, wprop):
-        pass
+        try:
+            widget = UI.ds[-1].findWidget(yui.YStringWidgetID(wid))
+        except YUIWidgetNotFoundException:
+            return None
+        prop = widget.getProperty(wprop)
+        if prop.type() == yui.YStringProperty:
+            return prop.stringVal()
+        elif prop.type() == yui.YBoolProperty:
+            return prop.boolVal()
+        elif prop.type() == yui.YIntegerProperty:
+            return prop.integerVal()
+        else:
+            raise NotImplementedError('Property type: %d' % prop.type())
 
 class Id(object):
     def __init__(self, label):
