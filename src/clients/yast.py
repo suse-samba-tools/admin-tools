@@ -222,6 +222,8 @@ class UI(object):
         except YUIWidgetNotFoundException:
             return None
         prop = widget.getProperty(wprop)
+        if prop.type() == yui.YOtherProperty:
+            raise NotImplementedError('Unknown property type')
         if prop.type() == yui.YStringProperty:
             return prop.stringVal()
         elif prop.type() == yui.YBoolProperty:
