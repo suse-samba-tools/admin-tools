@@ -280,6 +280,8 @@ class Widget(ABC):
             elif issubclass(type(arg), Widget):
                 self.widgets.append(arg)
             else:
+                if type(arg) == bytes:
+                    arg = arg.decode()
                 self.args.append(arg)
         self.args = tuple(self.args)
 
