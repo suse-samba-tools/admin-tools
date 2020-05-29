@@ -231,6 +231,11 @@ class UI(object):
         else:
             raise NotImplementedError('Property type: %d' % prop.type())
 
+    @staticmethod
+    def CloseDialog():
+        close_dialog = UI.ds.pop()
+        close_dialog.destroy()
+
 class Id(object):
     def __init__(self, label):
         self.id = label
