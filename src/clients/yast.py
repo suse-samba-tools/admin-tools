@@ -279,6 +279,15 @@ class Widget(ABC):
     def __create__(self, parent):
         pass
 
+    def __options__(self, w):
+        for opt in self.opts:
+            if opt == 'notify':
+                w.setNotify()
+            elif opt == 'notifyContextMenu':
+                w.setNotifyContextMenu()
+            else:
+                raise NotImplementedError('Type: %s, Option: %s' % (type(w), opt))
+
 class Item(Widget):
     def __init__(self, *args):
         super(Item, self).__init__(*args)
@@ -327,6 +336,7 @@ class Alignment(Widget):
         w = UI.f.createAlignment(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -340,6 +350,7 @@ class InputField(Widget):
                 w.setValue(self.args[1])
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 TextEntry = InputField
@@ -352,6 +363,7 @@ class ProgressBar(Widget):
         w = UI.f.createProgressBar(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -363,6 +375,7 @@ class Bottom(Widget):
         w = UI.f.createBottom(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -374,6 +387,7 @@ class IntField(Widget):
         w = UI.f.createIntField(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -387,6 +401,7 @@ class PushButton(Widget):
         w = UI.f.createPushButton(parent, self.args[-1])
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
 
 class BusyIndicator(Widget):
     def __init__(self, *args):
@@ -396,6 +411,7 @@ class BusyIndicator(Widget):
         w = UI.f.createBusyIndicator(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -407,6 +423,7 @@ class ItemSelector(Widget):
         w = UI.f.createItemSelector(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -418,6 +435,7 @@ class RadioButton(Widget):
         w = UI.f.createRadioButton(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -429,6 +447,7 @@ class ButtonBox(Widget):
         w = UI.f.createButtonBox(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -440,6 +459,7 @@ class Label(Widget):
         w = UI.f.createLabel(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -451,6 +471,7 @@ class RadioButtonGroup(Widget):
         w = UI.f.createRadioButtonGroup(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -462,6 +483,7 @@ class CheckBox(Widget):
         w = UI.f.createCheckBox(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -473,6 +495,7 @@ class LayoutBox(Widget):
         w = UI.f.createLayoutBox(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -484,6 +507,7 @@ class ReplacePoint(Widget):
         w = UI.f.createReplacePoint(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -495,6 +519,7 @@ class CheckBoxFrame(Widget):
         w = UI.f.createCheckBoxFrame(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -506,6 +531,7 @@ class Left(Widget):
         w = UI.f.createLeft(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -517,6 +543,7 @@ class RichText(Widget):
         w = UI.f.createRichText(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -528,6 +555,7 @@ class ComboBox(Widget):
         w = UI.f.createComboBox(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -539,6 +567,7 @@ class LogView(Widget):
         w = UI.f.createLogView(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -550,6 +579,7 @@ class Right(Widget):
         w = UI.f.createRight(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -561,6 +591,7 @@ class CustomStatusItemSelector(Widget):
         w = UI.f.createCustomStatusItemSelector(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -572,6 +603,7 @@ class MainDialog(Widget):
         w = UI.f.createMainDialog(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -583,6 +615,7 @@ class SelectionBox(Widget):
         w = UI.f.createSelectionBox(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -594,6 +627,7 @@ class Dialog(Widget):
         w = UI.f.createDialog(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -605,6 +639,7 @@ class MarginBox(Widget):
         w = UI.f.createMarginBox(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -616,6 +651,7 @@ class SingleItemSelector(Widget):
         w = UI.f.createSingleItemSelector(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -627,6 +663,7 @@ class Empty(Widget):
         w = UI.f.createEmpty(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -638,6 +675,7 @@ class MenuButton(Widget):
         w = UI.f.createMenuButton(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -655,6 +693,7 @@ class Frame(Widget):
         w = UI.f.createFrame(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -666,6 +705,7 @@ class MinHeight(Widget):
         w = UI.f.createMinHeight(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -677,6 +717,7 @@ class Squash(Widget):
         w = UI.f.createSquash(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -688,6 +729,7 @@ class HBox(Widget):
         w = UI.f.createHBox(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -699,6 +741,7 @@ class MinSize(Widget):
         w = UI.f.createMinSize(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -710,6 +753,7 @@ class Table(Widget):
         w = UI.f.createTable(parent, self.args[0])
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         if len(self.args) != 2 or type(self.args[-1]) != list:
             raise ValueError(str(self.args))
         for s in self.args[-1]:
@@ -723,6 +767,7 @@ class HCenter(Widget):
         w = UI.f.createHCenter(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -734,6 +779,7 @@ class MinWidth(Widget):
         w = UI.f.createMinWidth(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -745,6 +791,7 @@ class Top(Widget):
         w = UI.f.createTop(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -758,6 +805,7 @@ class Heading(Widget):
         w = UI.f.createHeading(parent, self.args[-1])
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -769,6 +817,7 @@ class MultiItemSelector(Widget):
         w = UI.f.createMultiItemSelector(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -780,6 +829,7 @@ class Tree(Widget):
         w = UI.f.createTree(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -793,6 +843,7 @@ class HSpacing(Widget):
         w = UI.f.createHSpacing(parent, self.args[-1])
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -804,6 +855,7 @@ class MultiLineEdit(Widget):
         w = UI.f.createMultiLineEdit(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -815,6 +867,7 @@ class VBox(Widget):
         w = UI.f.createVBox(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -826,6 +879,7 @@ class HSquash(Widget):
         w = UI.f.createHSquash(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -837,6 +891,7 @@ class MultiSelectionBox(Widget):
         w = UI.f.createMultiSelectionBox(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -848,6 +903,7 @@ class VCenter(Widget):
         w = UI.f.createVCenter(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -859,6 +915,7 @@ class HStretch(Widget):
         w = UI.f.createHStretch(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -870,6 +927,7 @@ class OutputField(Widget):
         w = UI.f.createOutputField(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -883,6 +941,7 @@ class VSpacing(Widget):
         w = UI.f.createVSpacing(parent, self.args[-1])
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -894,6 +953,7 @@ class HVCenter(Widget):
         w = UI.f.createHVCenter(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -905,6 +965,7 @@ class PackageSelector(Widget):
         w = UI.f.createPackageSelector(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -916,6 +977,7 @@ class VSquash(Widget):
         w = UI.f.createVSquash(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -927,6 +989,7 @@ class HVSquash(Widget):
         w = UI.f.createHVSquash(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -940,6 +1003,7 @@ class PasswordField(Widget):
                 w.setValue(self.args[1])
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 Password = PasswordField
@@ -952,6 +1016,7 @@ class VStretch(Widget):
         w = UI.f.createVStretch(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -963,6 +1028,7 @@ class IconButton(Widget):
         w = UI.f.createIconButton(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -974,6 +1040,7 @@ class PkgSpecial(Widget):
         w = UI.f.createPkgSpecial(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -985,6 +1052,7 @@ class Image(Widget):
         w = UI.f.createImage(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -996,6 +1064,7 @@ class PopupDialog(Widget):
         w = UI.f.createPopupDialog(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -1007,6 +1076,7 @@ class BarGraph(Widget):
         w = UI.o.createBarGraph(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -1018,6 +1088,7 @@ class Slider(Widget):
         w = UI.o.createSlider(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -1029,6 +1100,7 @@ class DateField(Widget):
         w = UI.o.createDateField(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -1040,6 +1112,7 @@ class TimeField(Widget):
         w = UI.o.createTimeField(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -1051,6 +1124,7 @@ class DownloadProgress(Widget):
         w = UI.o.createDownloadProgress(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -1062,6 +1136,7 @@ class TimezoneSelector(Widget):
         w = UI.o.createTimezoneSelector(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -1073,6 +1148,7 @@ class DumbTab(Widget):
         w = UI.o.createDumbTab(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -1084,6 +1160,7 @@ class VMultiProgressMeter(Widget):
         w = UI.o.createVMultiProgressMeter(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -1095,6 +1172,7 @@ class DummySpecialWidget(Widget):
         w = UI.o.createDummySpecialWidget(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -1106,6 +1184,7 @@ class Graph(Widget):
         w = UI.o.createGraph(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -1117,6 +1196,7 @@ class HMultiProgressMeter(Widget):
         w = UI.o.createHMultiProgressMeter(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -1128,6 +1208,7 @@ class MultiProgressMeter(Widget):
         w = UI.o.createMultiProgressMeter(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -1139,6 +1220,7 @@ class PartitionSplitter(Widget):
         w = UI.o.createPartitionSplitter(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -1150,6 +1232,7 @@ class PatternSelector(Widget):
         w = UI.o.createPatternSelector(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
 
@@ -1161,5 +1244,6 @@ class SimplePatchSelector(Widget):
         w = UI.o.createSimplePatchSelector(parent, *self.args)
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
+        self.__options__(w)
         for s in self.widgets:
             s.__create__(w)
