@@ -93,7 +93,7 @@ class Wizard(object):
     @staticmethod
     def SetContentsButtons(title, contents, help_txt, back_txt, next_txt):
         UI.SetApplicationTitle(title)
-        UI.ChangeWidget('title', 'Value', String(title))
+        UI.ChangeWidget('title', 'Value', title)
         UI.ReplaceWidget('contents', contents)
         UI.ReplaceWidget('rep_back', PushButton(Id('back'), Opt('key_F8'), back_txt))
         UI.ReplaceWidget('rep_next', PushButton(Id('next'), Opt('key_F10', 'default'), next_txt))
@@ -686,7 +686,7 @@ class Table(Widget):
         if len(self.args) != 2 or type(self.args[-1]) != list:
             raise ValueError(str(self.args))
         for i in self.args[-1]:
-            t.addItem(i)
+            w.addItem(i)
 
 class HCenter(Widget):
     def __init__(self, *args):
