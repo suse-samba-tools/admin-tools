@@ -116,12 +116,12 @@ class Wizard(object):
 
     @staticmethod
     def SetTitleIcon(icon_name):
-        # TODO: Discover how to set the title icon
-        pass
+        UI.a.setApplicationIcon(icon_name)
 
 class UI(object):
     f = yui.YUI.widgetFactory()
     o = yui.YUI.optionalWidgetFactory()
+    a = yui.YUI_application()
     ds = []
 
     @staticmethod
@@ -153,8 +153,7 @@ class UI(object):
 
     @staticmethod
     def SetApplicationTitle(title):
-        # TODO: Discover how to set the title
-        pass
+        a.setApplicationTitle(title)
 
     @staticmethod
     def HasSpecialWidget(name):
