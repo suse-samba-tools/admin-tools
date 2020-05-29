@@ -1,5 +1,11 @@
 AC_INIT([admin-tools], [1.0])
 AC_CONFIG_AUX_DIR([.])
+LT_INIT
+AM_PATH_PYTHON([3.5])
+AX_PYTHON_DEVEL
+AX_PKG_SWIG([], [], AC_MSG_ERROR([SWIG is required to build.]))
+AX_SWIG_PYTHON
+AC_PROG_CXX
 AM_INIT_AUTOMAKE
 sed 's;@TOP_SRC_DIR@;'${ac_abs_confdir}';g' ${ac_abs_confdir}/src/yast-ruby-bindings.make.in > ${ac_abs_confdir}/src/yast-ruby-bindings/Makefile.am && autoreconf -if
 AC_CONFIG_FILES([Makefile src/Makefile src/clients/Makefile src/yast-ruby-bindings/Makefile])

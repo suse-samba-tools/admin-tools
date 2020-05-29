@@ -1,4 +1,4 @@
-import yui
+import yui, yui_ext
 from abc import ABC, abstractmethod
 
 def import_module(name):
@@ -147,13 +147,22 @@ class UI(object):
         if event.widget():
             ret['ID'] = event.widget().id().toString()
         if event.eventType() == yui.YEvent.WidgetEvent:
-            event.__class__ = yui.YWidgetEvent
-            ret['EventReason'] = event.toString(event.reason())
+            reason = yui_ext.YWidgetEvent_reason(event)
+            if reason == 0: # UnknownReason
+                ret['EventReason'] = 'UnknownReason'
+            elif reason == 1: # Activated
+                ret['EventReason'] = 'Activated'
+            elif reason == 2: # SelectionChanged
+                ret['EventReason'] = 'SelectionChanged'
+            elif reason == 3: # ValueChanged
+                ret['EventReason'] = 'ValueChanged'
+            elif reason == 4: # ContextMenuActivated
+                ret['EventReason'] = 'ContextMenuActivated'
         return ret
 
     @staticmethod
     def SetApplicationTitle(title):
-        a.setApplicationTitle(title)
+        UI.a.setApplicationTitle(title)
 
     @staticmethod
     def HasSpecialWidget(name):
