@@ -256,16 +256,6 @@ def Header(*args):
         h.addColumn(arg)
     return h
 
-def Item(*args):
-    item_id = None
-    for arg in args:
-        if type(arg) == Id:
-            item_id = arg
-        else:
-            label = arg
-    # TODO: How to set the id?
-    return yui.YTableItem(label)
-
 class Widget(ABC):
     def __init__(self, *args):
         self.args = []
@@ -288,6 +278,28 @@ class Widget(ABC):
     @abstractmethod
     def __create__(self, parent):
         pass
+
+class Item(Widget):
+    def __init__(self, *args):
+        super(Item, self).__init__(*args)
+
+    def __create__(self, parent):
+        if type(parent) == yui.YTable:
+            w = yui.YTableItem(*self.args)
+            parent.addItem(w)
+        elif type(parent) == yui.YTree or type(parent) == yui.YTreeItem:
+            ytree_args = tuple(self.args[:2])
+            w = yui.YTreeItem(*ytree_args)
+            if len(self.args) > 2:
+                for s in self.args[-1]:
+                    w.addChild(s.__create__(w))
+        elif type(parent) == yui.YMenu:
+            w = yui.YMenuItem(parent, *self.args)
+        else:
+            w = yui.YItem(*self.args)
+            parent.addItem(w)
+        if self.id: # Items don't have the Widget 'id()' function, so add it
+            w.id = lambda : yui.YStringWidgetID(str(self.id))
 
 class HWeight(Widget):
     def __init__(self, *args):
@@ -700,8 +712,8 @@ class Table(Widget):
             w.setId(yui.YStringWidgetID(str(self.id)))
         if len(self.args) != 2 or type(self.args[-1]) != list:
             raise ValueError(str(self.args))
-        for i in self.args[-1]:
-            w.addItem(i)
+        for s in self.args[-1]:
+            s.__create__(w)
 
 class HCenter(Widget):
     def __init__(self, *args):
