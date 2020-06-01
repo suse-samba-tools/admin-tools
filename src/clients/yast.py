@@ -385,7 +385,13 @@ class Item(Widget):
             w = yui.YTreeItem(*ytree_args)
             if len(self.args) > 2:
                 for s in self.args[-1]:
-                    w.addChild(s.__create__(w))
+                    s.__create__(w)
+            if type(parent) == yui.YTreeItem:
+                parent.addChild(w)
+            elif type(parent) == yui.YTree:
+                items = yui.YItemCollection()
+                items.push_back(w)
+                parent.addItems(items)
         elif type(parent) == yui.YMenu:
             w = yui.YMenuItem(parent, *self.args)
         else:
