@@ -223,7 +223,15 @@ class UI(object):
             return None
         prop = widget.getProperty(wprop)
         if prop.type() == yui.YOtherProperty:
-            raise NotImplementedError('Unknown property type')
+            if wprop == yui.YUIProperty_Value:
+                if widget.widgetClass() == 'YTable':
+                    w = yui_ext.dynamic_cast_YTable(widget)
+                    s = w.selectedItem();
+                    return s.label()
+                else:
+                    raise NotImplementedError('Unknown widget property type: %s' % widget.widgetClass())
+            else:
+                raise NotImplementedError('Unknown property type: %s' % wprop)
         if prop.type() == yui.YStringProperty:
             return prop.stringVal()
         elif prop.type() == yui.YBoolProperty:
@@ -310,6 +318,7 @@ class Item(Widget):
             w = yui.YItem(*self.args)
             parent.addItem(w)
         if self.id: # Items don't have the Widget 'id()' function, so add it
+            w.setLabel(str(self.id))
             w.id = lambda : yui.YStringWidgetID(str(self.id))
 
 class HWeight(Widget):
