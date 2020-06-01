@@ -246,6 +246,14 @@ class UI(object):
         close_dialog = UI.ds.pop()
         close_dialog.destroy()
 
+    @staticmethod
+    def ChangeWidget(wid, prop, newval):
+        try:
+            widget = UI.ds[-1].findWidget(yui.YStringWidgetID(wid))
+        except YUIWidgetNotFoundException:
+            return None
+        return widget.setProperty(prop, yui.YPropertyValue(newval))
+
 class Id(object):
     def __init__(self, label):
         self.id = label
@@ -295,6 +303,19 @@ class Widget(ABC):
                 w.setNotify()
             elif opt == 'notifyContextMenu':
                 w.setNotifyContextMenu()
+            elif opt == 'hstretch':
+                w.setStretchable(0, True)
+            elif opt == 'vstretch':
+                w.setStretchable(1, True)
+            elif opt == 'hvstretch':
+                w.setStretchable(0, True)
+                w.setStretchable(1, True)
+            elif opt.startswith('key_'):
+                w.setFunctionKey(int(opt[5:]))
+            elif opt == 'helpButton':
+                print('TODO: Handle helpButton option')
+            elif opt == 'default':
+                print('TODO: Handle default option')
             else:
                 raise NotImplementedError('Type: %s, Option: %s' % (type(w), opt))
 
