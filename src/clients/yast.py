@@ -19,24 +19,24 @@ class Symbol(object):
     def __str__(self):
         return self.symbol
 
-class Sequencer:
-    def __init__(self, *cli_args):
-        self.cli_args = cli_args
+class Term(object):
+    def __init__(self, label, *args):
+        self.term = label
+        self.args = args
 
-    def run(self, funcs):
-        Wizard.CreateDialog()
+    def __str__(self):
+        return self.term
 
-        for func in funcs:
-            ret = func(*self.cli_args)
-            if type(ret) is tuple:
-                data, ret = ret
-                self.cli_args = (data,) + self.cli_args
-            if str(ret) == 'next':
-                continue
-            elif str(ret) == 'abort':
-                break
+class Sequencer(object):
 
-        UI.CloseDialog()
+    @staticmethod
+    def Run(aliases, sequence):
+        current = sequence['ws_start']
+        while True:
+            func = aliases[current][0]
+            params = tuple(aliases[current][1:]) if len(aliases[current]) > 1 else tuple()
+            next_symbol = func(*params)
+            current = str(next_symbol)
 
 class Wizard(object):
     @staticmethod
