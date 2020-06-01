@@ -254,6 +254,16 @@ class UI(object):
             return None
         return widget.setProperty(prop, yui.YPropertyValue(newval))
 
+    @staticmethod
+    def ReplaceWidget(wid, new_content):
+        try:
+            widget = UI.ds[-1].findWidget(yui.YStringWidgetID(wid))
+        except YUIWidgetNotFoundException:
+            return None
+        replacePoint = yui_ext.dynamic_cast_YReplacePoint(widget)
+        replacePoint.deleteChildren()
+        replacePoint.addChild(new_content.__create__(widget))
+
 class Id(object):
     def __init__(self, label):
         self.id = label

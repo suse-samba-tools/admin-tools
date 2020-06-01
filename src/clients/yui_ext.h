@@ -1,5 +1,6 @@
 #include "YEvent.h"
 #include "YTable.h"
+#include "YReplacePoint.h"
 #include <string.h>
 #include <string>
 using namespace std;
