@@ -256,6 +256,10 @@ class UI(object):
                     w = yui_ext.dynamic_cast_YTable(widget)
                     s = w.selectedItem();
                     return s.label()
+                elif widget.widgetClass() == 'YTree':
+                    w = yui_ext.dynamic_cast_YTree(widget)
+                    s = w.currentItem();
+                    return s.label()
                 else:
                     raise NotImplementedError('Unknown widget property type: %s' % widget.widgetClass())
             else:

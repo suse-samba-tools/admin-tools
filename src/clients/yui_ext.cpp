@@ -15,3 +15,8 @@ YReplacePoint* dynamic_cast_YReplacePoint(YWidget * widget)
 {
 	return dynamic_cast<YReplacePoint*>(widget);
 }
+
+YTree* dynamic_cast_YTree(YWidget * widget)
+{
+	return dynamic_cast<YTree*>(widget);
+}
