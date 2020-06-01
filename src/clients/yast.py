@@ -112,19 +112,35 @@ class Wizard(object):
 
     @staticmethod
     def DisableBackButton():
-        pass
+        try:
+            widget = UI.ds[-1].findWidget(yui.YStringWidgetID('back'))
+        except Exception:
+            return None
+        widget.setEnabled(False)
 
     @staticmethod
     def DisableNextButton():
-        pass
+        try:
+            widget = UI.ds[-1].findWidget(yui.YStringWidgetID('next'))
+        except Exception:
+            return None
+        widget.setEnabled(False)
 
     @staticmethod
     def EnableNextButton():
-        pass
+        try:
+            widget = UI.ds[-1].findWidget(yui.YStringWidgetID('next'))
+        except Exception:
+            return None
+        widget.setEnabled(True)
 
     @staticmethod
     def DisableAbortButton():
-        pass
+        try:
+            widget = UI.ds[-1].findWidget(yui.YStringWidgetID('abort'))
+        except Exception:
+            return None
+        widget.setEnabled(False)
 
     @staticmethod
     def SetTitleIcon(icon_name):
