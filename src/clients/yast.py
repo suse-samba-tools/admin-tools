@@ -85,6 +85,18 @@ class Wizard(object):
         )
 
     @staticmethod
+    def HideBackButton():
+        UI.ReplaceWidget('rep_back', Empty())
+
+    @staticmethod
+    def HideNextButton():
+        UI.ReplaceWidget('rep_next', Empty())
+
+    @staticmethod
+    def HideAbortButton():
+        UI.ReplaceWidget('rep_abort', Empty())
+
+    @staticmethod
     def CreateDialog():
         content = Wizard.GenericDialog(Wizard.BackAbortNextButtonBox())
         UI.OpenDialog(content, Opt('wizardDialog'))
@@ -219,7 +231,7 @@ class UI(object):
     def QueryWidget(wid, wprop):
         try:
             widget = UI.ds[-1].findWidget(yui.YStringWidgetID(wid))
-        except YUIWidgetNotFoundException:
+        except Exception:
             return None
         prop = widget.getProperty(wprop)
         if prop.type() == yui.YOtherProperty:
@@ -250,7 +262,7 @@ class UI(object):
     def ChangeWidget(wid, prop, newval):
         try:
             widget = UI.ds[-1].findWidget(yui.YStringWidgetID(wid))
-        except YUIWidgetNotFoundException:
+        except Exception:
             return None
         return widget.setProperty(prop, yui.YPropertyValue(newval))
 
@@ -258,12 +270,20 @@ class UI(object):
     def ReplaceWidget(wid, new_content):
         try:
             widget = UI.ds[-1].findWidget(yui.YStringWidgetID(wid))
-        except YUIWidgetNotFoundException:
+        except Exception:
             return None
         replacePoint = yui_ext.dynamic_cast_YReplacePoint(widget)
         replacePoint.deleteChildren()
         new_content.__create__(widget)
         replacePoint.showChild()
+
+    @staticmethod
+    def WidgetExists(wid):
+        try:
+            widget = UI.ds[-1].findWidget(yui.YStringWidgetID(str(wid)))
+        except Exception:
+            widget = None
+        return True if widget else False
 
 class Id(object):
     def __init__(self, label):
