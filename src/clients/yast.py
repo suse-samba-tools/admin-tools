@@ -326,6 +326,8 @@ class Widget(ABC):
                 print('TODO: Handle helpButton option')
             elif opt == 'default':
                 print('TODO: Handle default option')
+            elif opt == 'immediate':
+                print('TODO: Handle immediate option')
             else:
                 raise NotImplementedError('Type: %s, Option: %s' % (type(w), opt))
 
@@ -727,6 +729,7 @@ class Spacing(Widget):
 
     def __create__(self, parent):
         raise NotImplementedError('Spacing')
+
 class Frame(Widget):
     def __init__(self, *args):
         super(Frame, self).__init__(*args)
@@ -868,11 +871,11 @@ class Tree(Widget):
         super(Tree, self).__init__(*args)
 
     def __create__(self, parent):
-        w = UI.f.createTree(parent, *self.args)
+        w = UI.f.createTree(parent, self.args[0])
         if self.id:
             w.setId(yui.YStringWidgetID(str(self.id)))
         self.__options__(w)
-        for s in self.widgets:
+        for s in self.args[-1]:
             s.__create__(w)
 
 class HSpacing(Widget):
