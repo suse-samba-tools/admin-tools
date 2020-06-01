@@ -262,7 +262,8 @@ class UI(object):
             return None
         replacePoint = yui_ext.dynamic_cast_YReplacePoint(widget)
         replacePoint.deleteChildren()
-        replacePoint.addChild(new_content.__create__(widget))
+        new_content.__create__(widget)
+        replacePoint.showChild()
 
 class Id(object):
     def __init__(self, label):
