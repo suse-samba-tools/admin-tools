@@ -255,11 +255,10 @@ class UI(object):
                 if widget.widgetClass() == 'YTable':
                     w = yui_ext.dynamic_cast_YTable(widget)
                     s = w.selectedItem();
-                    return s.label()
+                    return yui_ext.YTableItem_getID(s)
                 elif widget.widgetClass() == 'YTree':
-                    w = yui_ext.dynamic_cast_YTree(widget)
-                    s = w.currentItem();
-                    return s.label()
+                    s = yui_ext.YTree_currentItem(widget)
+                    return yui_ext.YTreeItem_getID(s)
                 else:
                     raise NotImplementedError('Unknown widget property type: %s' % widget.widgetClass())
             else:
@@ -380,6 +379,8 @@ class Item(Widget):
         if type(parent) == yui.YTable:
             w = yui.YTableItem(*self.args)
             parent.addItem(w)
+            if self.id:
+                yui_ext.YTableItem_setID(w, str(self.id))
         elif type(parent) == yui.YTree or type(parent) == yui.YTreeItem:
             ytree_args = tuple(self.args[:2])
             w = yui.YTreeItem(*ytree_args)
@@ -392,13 +393,16 @@ class Item(Widget):
                 items = yui.YItemCollection()
                 items.push_back(w)
                 parent.addItems(items)
+            if self.id:
+                yui_ext.YTreeItem_setID(w, str(self.id))
         elif type(parent) == yui.YMenu:
             w = yui.YMenuItem(parent, *self.args)
         else:
             w = yui.YItem(*self.args)
             parent.addItem(w)
+            if self.id:
+                yui_ext.YItem_setID(w, str(self.id))
         if self.id: # Items don't have the Widget 'id()' function, so add it
-            w.setLabel(str(self.id))
             w.id = lambda : yui.YStringWidgetID(str(self.id))
 
 class HWeight(Widget):
