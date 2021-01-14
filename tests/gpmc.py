@@ -57,6 +57,21 @@ class TestGPMC(AdminToolsTestCase):
         self.press('Enter') # Yes
         self.assertNotSeen(gpo_name)
 
+    def search_property(self, expected, cancel_btabs=2):
+        for i in range(0, 50):
+            for _ in range(0, i):
+                self.press('Down')
+            self.press('Enter')
+            try:
+                self.assertSeen(expected, timeout=.2)
+            except AssertionError:
+                for _ in range(0, cancel_btabs):
+                    self.press('BTab')
+                self.press('Enter') # Cancel
+                continue
+            return
+        self.fail('Failed to find %s' % expected)
+
     def test_modify_account_policy_gpo(self):
         self.__open_gpmc()
 
@@ -99,53 +114,38 @@ class TestGPMC(AdminToolsTestCase):
         self.press('Down') # Password Policy
         self.assertSeen('Minimum password age\s*│Not Defined')
         self.press('Tab')
-        self.press('Enter') # Minimum password age
-        self.assertSeen('MinimumPasswordAge Properties')
+        self.search_property('MinimumPasswordAge Properties') # Minimum password age
         self.press('1')
         self.press('Tab')
         self.press('Enter') # OK
         self.assertSeen('Minimum password age\s*│1 days')
-        self.press('Down')
         self.assertSeen('Maximum password age\s*│Not Defined')
-        self.press('Enter') # Maximum password age
-        self.assertSeen('MaximumPasswordAge Properties')
+        self.search_property('MaximumPasswordAge Properties') # Maximum password age
         self.press('99')
         self.press('Tab')
         self.press('Enter') # OK
         self.assertSeen('Maximum password age\s*│99 days')
-        for _ in range(0, 2):
-            self.press('Down')
         self.assertSeen('Minimum password length\s*│Not Defined')
-        self.press('Enter') # Minimum password length
-        self.assertSeen('MinimumPasswordLength Properties')
+        self.search_property('MinimumPasswordLength Properties') # Minimum password length
         self.press('10')
         self.press('Tab')
         self.press('Enter') # OK
         self.assertSeen('Minimum password length\s*│10 characters')
-        for _ in range(0, 3):
-            self.press('Down')
         self.assertSeen('Password must meet complexity requirements\s*│Not Defined')
-        self.press('Enter') # Password must meet complexity requirements
-        self.assertSeen('PasswordComplexity Properties')
+        self.search_property('PasswordComplexity Properties') # Password must meet complexity requirements
         self.press('Down')
         self.press('Enter')
         self.press('Tab')
         self.press('Enter') # OK
         self.assertSeen('Password must meet complexity requirements\s*│Enabled')
-        for _ in range(0, 4):
-            self.press('Down')
         self.assertSeen('Enforce password history\s*│Not Defined')
-        self.press('Enter') # Enforce password history
-        self.assertSeen('PasswordHistorySize Properties')
+        self.search_property('PasswordHistorySize Properties') # Enforce password history
         self.press('10')
         self.press('Tab')
         self.press('Enter') # OK
         self.assertSeen('Enforce password history\s*│10 passwords remembered')
-        for _ in range(0, 5):
-            self.press('Down')
         self.assertSeen('Store passwords using reversible encryption\s*│Not Defined')
-        self.press('Enter') # Store passwords using reversible encryption
-        self.assertSeen('ClearTextPassword Properties')
+        self.search_property('ClearTextPassword Properties') # Store passwords using reversible encryption
         self.press('Down')
         self.press('Enter')
         self.press('Tab')
@@ -157,25 +157,19 @@ class TestGPMC(AdminToolsTestCase):
         self.press('Down')
         self.press('Tab')
         self.assertSeen('Account lockout duration\s*│Not Defined')
-        self.press('Enter') # Account lockout duration
-        self.assertSeen('LockoutDuration Properties')
+        self.search_property('LockoutDuration Properties') # Account lockout duration
         self.press('10')
         self.press('Tab')
         self.press('Enter') # OK
         self.assertSeen('Account lockout duration\s*│10 minutes')
-        self.press('Down')
         self.assertSeen('Account lockout threshold\s*│Not Defined')
-        self.press('Enter') # Account lockout threshold
-        self.assertSeen('LockoutBadCount Properties')
+        self.search_property('LockoutBadCount Properties') # Account lockout threshold
         self.press('3')
         self.press('Tab')
         self.press('Enter') # OK
         self.assertSeen('Account lockout threshold\s*│3 invalid logon attempts')
-        for _ in range(0, 2):
-            self.press('Down')
         self.assertSeen('Reset account lockout counter after\s*│Not Defined')
-        self.press('Enter') # Reset account lockout counter after
-        self.assertSeen('ResetLockoutCount Properties')
+        self.search_property('ResetLockoutCount Properties') # Reset account lockout counter after
         self.press('10')
         self.press('Tab')
         self.press('Enter') # OK
@@ -186,43 +180,31 @@ class TestGPMC(AdminToolsTestCase):
         self.press('Down')
         self.press('Tab')
         self.assertSeen('Maximum lifetime for user ticket\s*│Not Defined')
-        self.press('Enter') # Maximum lifetime for user ticket
-        self.assertSeen('MaxTicketAge Properties')
+        self.search_property('MaxTicketAge Properties') # Maximum lifetime for user ticket
         self.press('10')
         self.press('Tab')
         self.press('Enter') # OK
         self.assertSeen('Maximum lifetime for user ticket\s*│10 hours')
-        self.press('Down')
         self.assertSeen('Maximum lifetime for user ticket renewal\s*│Not Defined')
-        self.press('Enter') # Maximum lifetime for user ticket renewal
-        self.assertSeen('MaxRenewAge Properties')
+        self.search_property('MaxRenewAge Properties') # Maximum lifetime for user ticket renewal
         self.press('600')
         self.press('Tab')
         self.press('Enter') # OK
         self.assertSeen('Maximum lifetime for user ticket renewal\s*│600 minutes')
-        for _ in range(0, 2):
-            self.press('Down')
         self.assertSeen('Maximum lifetime for service ticket\s*│Not Defined')
-        self.press('Enter') # Maximum lifetime for service ticket
-        self.assertSeen('MaxServiceAge Properties')
+        self.search_property('MaxServiceAge Properties') # Maximum lifetime for service ticket
         self.press('600')
         self.press('Tab')
         self.press('Enter') # OK
         self.assertSeen('Maximum lifetime for service ticket\s*│600 minutes')
-        for _ in range(0, 3):
-            self.press('Down')
         self.assertSeen('Maximum tolerance for computer clock synchronization\s*│Not Defined')
-        self.press('Enter') # Maximum tolerance for computer clock synchronization
-        self.assertSeen('MaxClockSkew Properties')
+        self.search_property('MaxClockSkew Properties') # Maximum tolerance for computer clock synchronization
         self.press('5')
         self.press('Tab')
         self.press('Enter') # OK
         self.assertSeen('Maximum tolerance for computer clock synchronization\s*│5 minutes')
-        for _ in range(0, 4):
-            self.press('Down')
         self.assertSeen('Enforce user logon restrictions\s*│Not Defined')
-        self.press('Enter') # Enforce user logon restrictions
-        self.assertSeen('TicketValidateClient Properties')
+        self.search_property('TicketValidateClient Properties') # Enforce user logon restrictions
         self.press('Down')
         self.press('Enter')
         self.press('Tab')
@@ -284,8 +266,7 @@ class TestGPMC(AdminToolsTestCase):
         self.press('Down') # Connection
         self.press('Tab')
         self.assertSeen('Proxy Settings\s*│Settings for proxy')
-        self.press('Enter') # Proxy Settings
-        self.assertSeen('Proxy Settings Properties')
+        self.search_property('Proxy Settings Properties') # Proxy Settings
         self.press('Down')
         self.press('Up')
         self.press('Enter') # Enable proxy settings
@@ -301,7 +282,7 @@ class TestGPMC(AdminToolsTestCase):
         self.press('Enter') # OK
         self.assertNotSeen('Proxy Settings Properties')
         ### Reopen the dialog and ensure the settings were saved ###
-        self.press('Enter') # Proxy Settings
+        self.search_property('Proxy Settings Properties') # Proxy Settings
         self.assertSeen('Enable proxy settings\s*│\s*│\s*│\s*│\s*Enabled')
         self.assertSeen('Address of HTTP proxy\s*│\s*│\s*│\s*│\s*example.com')
         self.assertSeen('Use the same proxy server for all addresses\s*│\s*│\s*│\s*│\s*Enabled')
@@ -310,16 +291,13 @@ class TestGPMC(AdminToolsTestCase):
         self.press('Enter') # Cancel
 
         ### Modify Browser User Agent String Policy ###
-        self.press('Down')
         self.assertSeen('User Agent String\s*│Settings for user agent string')
-        self.press('Enter')
-        self.assertSeen('User Agent String Properties')
+        self.search_property('User Agent String Properties')
         self.press('AppleTV6,2/11.1')
         self.press('Tab')
         self.press('Enter') # OK
         ### Reopen the dialog and ensure the settings were saved ###
-        self.press('Down')
-        self.press('Enter')
+        self.search_property('User Agent String Properties')
         self.assertSeen('AppleTV6,2/11.1')
         for _ in range(0, 2):
             self.press('BTab')
