@@ -9,9 +9,20 @@ class TestGPMC(AdminToolsTestCase):
         for _ in range(0, 3):
             self.press('Down')
         self.press('Enter')
-        self.assertSeen('To continue, type an Active Directory administrator password')
-        for _ in range(0, 3):
-            self.press('Tab')
+        self.assertSeen('To continue, type an Active Directory administrator password', timeout=30)
+        for _ in range(0, 50):
+            self.press('BSpace')
+        self.press(self.creds.get_username())
+        self.press('Tab')
+        for _ in range(0, 50):
+            self.press('BSpace')
+        self.press(self.get_password())
+        self.press('Tab')
+        for _ in range(0, 50):
+            self.press('BSpace')
+        self.press(self.creds.get_domain())
+        for _ in range(0, 4):
+            self.press('BTab')
         self.press('Enter')
         self.assertSeen('Group Policy Management Console')
         # Make sure we see the Administrator in the Users list
