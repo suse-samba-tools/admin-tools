@@ -1,0 +1,13 @@
+diff --git a/cmake/Modules/FindCurses6.cmake b/cmake/Modules/FindCurses6.cmake
+index 0bf02c3..bae3003 100644
+--- a/cmake/Modules/FindCurses6.cmake
++++ b/cmake/Modules/FindCurses6.cmake
+@@ -5,7 +5,7 @@
+ #  CURSES6_LIBRARIES - The libraries needed to use Curses6
+ #  CURSES6_DEFINITIONS - Compiler switches required for using Curses6
+ 
+-FOREACH(path ${CMAKE_LIBRARY_PATH} /usr/${LIB_DIR})
++FOREACH(path ${CMAKE_LIBRARY_PATH} /usr/${LIB_DIR} /usr/lib/x86_64-linux-gnu)
+   FIND_LIBRARY(CURSES6_NCURSESW_LIBRARY NAMES ncursesw PATHS ${path}/ncurses6 ${path} NO_DEFAULT_PATH)
+   FIND_LIBRARY(CURSES6_PANELW_LIBRARY NAMES panelw PATHS ${path}/ncurses6 ${path} NO_DEFAULT_PATH)
+   FIND_LIBRARY(CURSES6_TINFO_LIBRARY NAMES tinfo PATHS ${path}/ncurses6 ${path} NO_DEFAULT_PATH)
