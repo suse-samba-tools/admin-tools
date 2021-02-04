@@ -2,6 +2,11 @@
 
 ## Installing build dependencies
 
+Installing the admin-tools modules requires the yast-rake ruby gem.
+```shell
+sudo gem install yast-rake
+```
+
 ### Debian/Ubuntu
 ```shell
 sudo apt-get install git make automake autoconf autoconf-archive gcc g++ python3-dev swig cmake pkg-config libtool gettext libboost-dev libboost-test-dev bison expect dejagnu doxygen docbook-xsl libncurses6 libncurses-dev libfl-dev libxcrypt1 libxcrypt-dev libjemalloc2 libjemalloc-dev ruby ruby-dev
