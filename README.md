@@ -1,5 +1,11 @@
 # admin-tools
 
+Administrator Tools is built using numerous packages, but the important repositories are [admin-tools](https://github.com/suse-samba-tools/admin-tools), [yast2-aduc](https://github.com/yast/yast2-aduc), [yast2-adsi](https://github.com/yast/yast2-adsi), [yast2-dns-manager](https://github.com/yast/yast2-dns-manager), and [yast2-gpmc](https://github.com/yast/yast2-gpmc). These packages are bundled into an [appimage and published on the AppImageHub](https://appimage.github.io/admin-tools/). Administrator Tools uses YaST as it's backend, more specifically it primarily uses the [YaST python bindings](https://github.com/yast/yast-python-bindings).
+
+To work on one of the individual tools, fork the repository on github, then submit a pull request to the project. To work on the main menu or automated testing, fork the admin-tools project.
+
+[Take a look at current tasks](https://dev.azure.com/suse-samba-tools/admin-tools/_boards) if you want to help out.
+
 ## Installing build dependencies
 
 Installing the admin-tools modules requires the yast-rake ruby gem.
