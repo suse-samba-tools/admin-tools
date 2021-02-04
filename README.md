@@ -42,7 +42,5 @@ make && sudo make install
 ```
 
 ## Run-time dependencies
-python3-samba
 
-## Ruby gems created
-packaging yast-rake fast_gettext
+Adminstrative Tools requires that Samba be installed. Follow the [instructions found in the Samba wiki](https://wiki.samba.org/index.php/Distribution-specific_Package_Installation) to install it for your distribution.
