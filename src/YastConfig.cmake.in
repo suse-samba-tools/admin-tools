@@ -37,7 +37,7 @@ FIND_LIBRARY(YAST_YCP_LIBRARY NAMES ycp
 
 FIND_LIBRARY(YAST_YUI_LIBRARY NAMES yui
   PATHS
-  ../libyui/src/.libs
+  ../libyui/libyui/build/src/.libs
 )
 
 FIND_LIBRARY(YAST_PLUGIN_WFM_LIBRARY NAMES py2wfm

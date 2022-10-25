@@ -22,10 +22,6 @@
 	path = src/libyui
 	url = https://github.com/libyui/libyui.git
 	branch = master
-[submodule "src/libyui-ncurses"]
-	path = src/libyui-ncurses
-	url = https://github.com/libyui/libyui-ncurses.git
-	branch = master
 [submodule "src/yast2-aduc"]
 	path = src/yast2-aduc
 	url = https://github.com/yast/yast2-aduc.git

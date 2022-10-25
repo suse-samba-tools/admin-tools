@@ -1,0 +1,21 @@
+#!/bin/sh
+
+TOP_SRCDIR="$(dirname $0)"
+
+while [ $# != 0 ]; do
+    case "$1" in
+        "--prefix="*)
+            PREFIX="${1#*=}";;
+        "--prefix")
+            PREFIX="${2}"; shift;;
+        *)
+            echo "$0: warning: unrecognized option: \`$1'" >&2
+            ;;
+    esac;
+    shift
+done
+
+pushd $TOP_SRCDIR
+rm -rf libyui/build/ libyui-ncurses/build/ || echo
+CMAKE_INSTALL_PREFIX="${PREFIX}" ./build-all --small --no-bindings --no-qt configure
+popd

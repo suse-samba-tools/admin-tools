@@ -1,6 +1,6 @@
 AM_MAKEFLAGS = DEVTOOLSBINDIR=$(abs_top_srcdir)/src/yast-core/base/tools/devtools
 
-SUBDIRS = yast-core libyui libyui-ncurses yast-ycp-ui-bindings yast-python-bindings yast-ruby-bindings clients
+SUBDIRS = yast-core libyui yast-ycp-ui-bindings yast-python-bindings yast-ruby-bindings clients
 
 DESTDIR ?= /
 install-exec-hook:

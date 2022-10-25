@@ -1,0 +1,7 @@
+ROOT_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
+
+all:
+	pushd ${ROOT_DIR}; ./build-all --small --no-bindings --no-qt build
+
+install:
+	pushd ${ROOT_DIR}; ./build-all --small --no-bindings --no-qt install
