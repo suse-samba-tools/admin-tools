@@ -32,3 +32,4 @@ ChangeLog
 INSTALL
 NEWS
 README
+src/FindYast.cmake

@@ -8,6 +8,7 @@ AC_DEFINE(PREFIX, $(prefix))
 AC_DEFINE(LIBDIR, $(libdir))
 export PATH=$PATH:${ac_abs_confdir}/src:${ac_abs_confdir}/src/yast-devtools/build-tools/doxygen
 sed 's;\.\.;'${ac_abs_confdir}'/src;g' ${ac_abs_confdir}/src/YastConfig.cmake.in > ${ac_abs_confdir}/src/YastConfig.cmake
+ln -fs YastConfig.cmake src/FindYast.cmake
 sed 's/__attribute__ ((deprecated)) //g' ${ac_abs_confdir}/src/yast-core/libycp/src/include/ycp/YCPMap.h > ${ac_abs_confdir}/src/yast-python-bindings/src/YCPMap.h
 ln -fs ../libyui_configure src/libyui/configure
 ln -fs ../libyui_makefile src/libyui/Makefile
